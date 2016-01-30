@@ -13,7 +13,6 @@ class BuyVehicle extends VehicleSource {
 		billPhoto nullable:true
     }
 	
-	
 	String manufacturer  //购买厂家
 	String buyMan    //购买人
 	String title     //来源名称
