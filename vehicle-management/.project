@@ -26,7 +26,7 @@
 		<link>
 			<name>.link_to_grails_plugins</name>
 			<type>2</type>
-			<locationURI>GRAILS_ROOT/2.2.3/projects/VehicleManaSystem/plugins</locationURI>
+			<locationURI>GRAILS_ROOT/2.2.3/projects/vehicle-management/plugins</locationURI>
 		</link>
 	</linkedResources>
 </projectDescription>

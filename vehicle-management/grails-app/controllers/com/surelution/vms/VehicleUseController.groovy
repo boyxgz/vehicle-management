@@ -176,7 +176,20 @@ class VehicleUseController {
 		   render dp.collect(){['id':dp.id,'name':dp.name,'dlicense':dp.dlicense,'dpNO':dp.dpNO,'enabled':dp.enabled?"正常":""]} as JSON
 		
 		   }
-		
+	}
+	
+	def pushData(){
+		println params.keyword
+		def vehicle = Vehicle.createCriteria().list {
+			like("vehicleNO",params.keyword+"%");
+		}
+		println vehicle
+		def vehicleNo = [];
+		vehicleNo = vehicle.collect(){
+			[vehicle:it.vehicleNO];
+		}
+		render vehicleNo as JSON
+	}	
 		//render (['status':(!dp || dp.licensRevoked || !dp.enabled || dp.delay && dp.delayTo<new Date())]) as JSON
 //		if(!dp || dp.licensRevoked || !dp.enabled){
 //			render (['status':!dp || dp.licensRevoked || !dp.enabled]) as JSON
@@ -188,7 +201,7 @@ class VehicleUseController {
 	       render dp.collect(){[status:true, 'id':dp.id,'name':dp.name,'dlicense':dp.dlicense,'dpNO':dp.dpNO,'enabled':dp.enabled?"正常":""]} as JSON
 		}*/
 		
-	}
+
 	//保存图片的方法
 	/*def static savePic(DynImage image){
 		def location = Holders.config.grails.dynImage.rootPath

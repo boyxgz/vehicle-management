@@ -25,6 +25,11 @@ class UserController {
 	
     def save() {
         def userInstance = new User(params)
+		userInstance.save(flush:true)
+		
+		def ur = UserRlow.create(userInstance,Rlow.findByAuthority("ROLE_USER"),false);
+		
+		//没有创建成功，跳回create
         if (!userInstance.save(flush: true)) {
             render(view: "create", model: [userInstance: userInstance])
             return

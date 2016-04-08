@@ -25,6 +25,7 @@ class Vehicle {
 	Double price //价格
 	String  vehicleModel //发动机型
 	String  vehicleNO   //车牌号
+	String  OBDId		//车载设备ID
 	String  vehicleBrand  //厂牌型号
 	
 	DynImage vehiclePhoto  //车辆照片
@@ -47,6 +48,6 @@ class Vehicle {
 			KeyedMessage.findByKey("PrerepairStatus-" + name())?.message
 		}
 	}
-	
+
 	Date insureEndDate  //保险到期日
 }
