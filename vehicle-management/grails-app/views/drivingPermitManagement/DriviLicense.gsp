@@ -5,6 +5,9 @@
 <head>
 	<meta name="layout" content="jarvis">
 	<title>准驾证管理</title>
+	<style>
+		.delete{text-decoration: line-through;}
+	</style>
 </head>
 <style>
 	td th{width:200px;}
@@ -54,13 +57,10 @@
 				<th><g:message code="drivingPermit.trainingDate.label" default="培训日期"/></th>
 				<th>核发时间</th>
 				<th><g:message code="drivingPermit.score.label" default="考核成绩"/></th>
-				<th><g:message code="drivingPermit.delay.label" default="是否延期"/></th>
-				<th><g:message code="drivingPermit.licensRevoked.label" default="是否吊销"/></th>
 				<th><g:message code="drivingPermit.delayTo.label" default="延期时长"/></th>
 				<th><g:message code="drivingPermit.revokedate.label" default="吊销日期"/></th>
 				<th><g:message code="drivingPermit.name.label" default="驾驶员"/></th>
-				<th><g:message code="drivingPermit.description.label" default="描述"/></th>
-				<th><g:message code="drivingPermit.age.label" default="年龄"/></th>
+				<th><g:message code="drivingPermit.birthDay.label" default="出生日期"/></th>
 				<th><g:message code="drivingPermit.sex.label" default="性别"/></th>
 				<th><g:message code="drivingPermit.dlicense.label" default="驾驶证"/></th>
 				<th><g:message code="drivingPermit.borrowNum.label" default="借车次数"/></th>
@@ -69,18 +69,15 @@
 			</thead>
 			<tbody>
 			<g:each in="${dpList}"  var="drivilicense">
-			<tr>
-				<td>${drivilicense?.dpNO }</td>
-				<td><g:formatDate date="${drivilicense?.trainingDate }" format="yyyy-MM-dd"/></td>
-				  <td><g:formatDate date="${drivilicense?.issueDate}" format="yyyy-MM-dd"/></td>
+			<tr class="${drivilicense?.licensRevoked ? 'delete' : ' '}">
+				<td><g:link action="showDrivi" id="${drivilicense?.id }">${drivilicense?.dpNO }</g:link></td>
+				<td><g:formatDate date="${drivilicense?.trainingDate }" format="yyyy-MM-dd" /></td>
+				<td><g:formatDate date="${drivilicense?.issueDate }" format="yyyy-MM-dd" /></td>
 				<td>${drivilicense?.score }</td>
-				<td><g:formatBoolean boolean="${drivilicense?.delay }" /></td>
-				<td><g:formatBoolean boolean="${drivilicense?.licensRevoked }" /></td>
-				<td><g:formatDate date="${drivilicense?.delayTo }" format="yyyy-MM-dd"/></td>
-				<td><g:formatDate date="${drivilicense?.revokeDate }" format="yyyy-MM-dd"/></td>
+				<td><g:formatDate date="${drivilicense?.delayTo }" format="yyyy-MM-dd" /></td>
+				<td><g:formatDate date="${drivilicense?.revokeDate }" format="yyyy-MM-dd" /></td>
 				<td>${drivilicense?.name }</td>
-				<td>${drivilicense?.description }</td>
-				<td>${drivilicense?.age }</td>
+				<td><g:formatDate date="${drivilicense?.birthDay }" format="yyyy-MM-dd" /></td>
 				<td>${drivilicense?.sex }</td>
 				<td>${drivilicense?.dlicense }</td>
 				<td>${drivilicense?.borrowNum }</td>

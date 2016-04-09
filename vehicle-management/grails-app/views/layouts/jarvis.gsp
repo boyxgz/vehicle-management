@@ -158,8 +158,8 @@
 						<ul class="treeview-menu">
 							<li><a href="" style="float:left;"><i class="fa fa-circle-thin"></i></a><g:link controller="drivingPermitManagement" action="driviLicense">准驾证管理</g:link></li>
 				            <li><a href="" style="float:left;"><i class="fa fa-circle-thin"></i></a><g:link controller="drivingPermitManagement" action="checkin">准驾证核发</g:link></li>
-							<li><a href="" style="float:left;"><i class="fa fa-circle-thin"></i></a><g:link controller="drivingPermitManagement" action="postpone">准驾证延期</g:link></li>
-							<li><a href="" style="float:left;"><i class="fa fa-circle-thin"></i></a><g:link controller="drivingPermitManagement" action="revoke">准驾证吊销</g:link></li>
+							<%--<li><a href="" style="float:left;"><i class="fa fa-circle-thin"></i></a><g:link controller="drivingPermitManagement" action="postpone">准驾证延期</g:link></li>
+							<li><a href="" style="float:left;"><i class="fa fa-circle-thin"></i></a><g:link controller="drivingPermitManagement" action="revoke">准驾证吊销</g:link></li>--%>
 						</ul></li>
 					<!-- 一个导航链接结束 -->
 								
@@ -167,9 +167,9 @@
 					<li class="treeview"><a href="#"><i class="fa fa-car"></i>
 							<span>车辆管理</span> <i class="fa fa-angle-left pull-right"></i></a>
 						<ul class="treeview-menu">
+							<li><a href="" style="float:left;"><i class="fa fa-circle-thin"></i></a><g:link controller="manaBuy" action="list">车辆管理</g:link></li>
 							<li><a href="" style="float:left;"><i class="fa fa-circle-thin"></i></a><g:link controller="manaBuy" action="showVehicle">购入车辆信息录入</g:link></li>
 							<li><a href="" style="float:left;"><i class="fa fa-circle-thin"></i></a><g:link controller="manaRent" action="showVehicle">租赁车辆信息录入</g:link></li>
-							<li><a href="" style="float:left;"><i class="fa fa-circle-thin"></i></a><g:link controller="manaBuy" action="list">车辆管理</g:link></li>
 							<%--<li><a href="#" style="float:left;"><i class="fa fa-circle-thin"></i></a><g:link controller="salesOrder" action="listApprove">车辆报废</g:link></li>
 							<li><a href="#" style="float:left;"><i class="fa fa-circle-thin"></i></a><g:link controller="salesOrder" action="changeFMstatusClose">车辆转让</g:link></li>
 							<li><a href="#" style="float:left;"><i class="fa fa-circle-thin"></i></a><g:link controller="salesOrder" action="changeFMstatusClose">停止租赁</g:link></li>--%>

@@ -1,5 +1,8 @@
 package com.surelution.vms
 
+import org.springframework.web.multipart.commons.CommonsMultipartFile
+import grails.util.Holders;
+
 class DrivingPermitManagementController {
 
     def index() { }
@@ -40,6 +43,7 @@ class DrivingPermitManagementController {
 				}
 			}
 		}
+		
 		[dpList:dpList]
 	}
 	
@@ -49,16 +53,29 @@ class DrivingPermitManagementController {
 	
 	def saveDrivingPermit(){
 		
+		def permitPic = new DynImage()
+		CommonsMultipartFile pic = request.getFile('permitPic')
+		def location = Holders.config.grails.dynImage.rootPath
+		def uuid = UUID.randomUUID().toString()
+		def picUrl = "${location}/${uuid}"
+		if(pic && !pic.empty){
+			def name = pic.getOriginalFilename()
+			permitPic.picUrl = picUrl
+			permitPic.originPicName = name
+			permitPic.save(flush:true)
+			pic.transferTo(new File(picUrl))
+		}
+		
 		def dpNO = params.dp
 		def trainingDate = params.date('trainingDate','yyyy.MM.dd')
 		def issueDate = params.date('issueDate','yyyy.MM.dd')
 		/*def validityDate = params.date('validityDate','yyyy.MM.dd')*/
 		def score = params.int('score')
 		def name = params.name
-		def descitption = params.description
+		def description = params.description
 		def sex = params.sex
 		def dlicense = params.dlicense
-		def age = params.int('age')
+//		def age = params.int('age')
 		
 		def d = new DrivingPermit()
 		d.dpNO = dpNO 
@@ -69,13 +86,15 @@ class DrivingPermitManagementController {
 		d.delay = false
 		d.licensRevoked = false
 		d.name = name
-		d.description = descitption
+		d.description = description
 		d.sex = sex
-		d.age = age
+		d.birthDay = params.date('birthDay','yyyy.MM.dd')
+		d.age = 0
 		d.dlicense = dlicense
 		d.borrowNum = 0
 		d.dlligle = " "
-		d.enabled = true;
+		d.enabled = true
+		d.permitPic = permitPic
 		
 		
 		if(d.save(flush: true)){
@@ -145,9 +164,62 @@ class DrivingPermitManagementController {
 		redirect(action:'revoke');
 	}
 	
+	def showDrivi(long id){
+		def drivi = DrivingPermit.get(id);
+		if(!drivi){
+			flash.message = "为找到该条目"
+			redirect(action: "list")
+		}
+		[drivi:drivi]
+	}
 	
+	def edit(long id){
+		def drivi = DrivingPermit.get(id);
+		if(!drivi){
+			flash.message = "未找到"
+		}
+		[drivi:drivi]
+	}
 	
+	def update(){
+		def drivi = DrivingPermit.get(params.id);
+		
+		def permitPic = new DynImage()
+		CommonsMultipartFile pic = request.getFile('permitPic')
+		def location = Holders.config.grails.dynImage.rootPath
+		def uuid = UUID.randomUUID().toString()
+		def picUrl = "${location}/${uuid}"
+		if(pic && !pic.empty){
+			def name = pic.getOriginalFilename()
+			permitPic.picUrl = picUrl
+			permitPic.originPicName = name
+			permitPic.save(flush:true)
+			pic.transferTo(new File(picUrl))
+			drivi.permitPic = permitPic;
+		}
+		
+		drivi.name = params.name;
+		drivi.dpNO = params.dpNO;
+		drivi.sex = params.sex;
+		drivi.birthDay = params.date('birthDay','yyyy-MM-dd');
+		drivi.dlicense = params.dlicense;
+		drivi.score = params.int('score');
+		drivi.trainingDate = params.date('trainingDate','yyyy-MM-dd');
+		drivi.issueDate = params.date('issueDate','yyyy-MM-dd');
+		drivi.revokeDate = params.date('revokeDate','yyyy-MM-dd');
+		drivi.delayTo = params.date('delayTo','yyyy-MM-dd');
+		drivi.description = params.descirption;
+		drivi.save(flush:true);
+		redirect(action:"showDrivi",id:params.id)
+	}
 	
-	
-	
+	def showPic(long id){
+		def drivi = DrivingPermit.get(id)
+		
+		File file = new File(drivi.permitPic.picUrl)
+		def os = response.outputStream
+		os << file.bytes
+		os.flush()
+		return
+	}
 }

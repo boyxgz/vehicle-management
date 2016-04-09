@@ -117,6 +117,7 @@
 </script>
 <style>
 	li.hover{background-color:red;}
+	ul{border:1px solid red;}
 	li{list-style: none;}
 	#showList{    
 			position: absolute;

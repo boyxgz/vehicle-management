@@ -181,7 +181,7 @@ class VehicleUseController {
 	def pushData(){
 		println params.keyword
 		def vehicle = Vehicle.createCriteria().list {
-			like("vehicleNO",params.keyword+"%");
+			like("vehicleNO","%"+params.keyword+"%");
 		}
 		println vehicle
 		def vehicleNo = [];
@@ -189,7 +189,7 @@ class VehicleUseController {
 			[vehicle:it.vehicleNO];
 		}
 		render vehicleNo as JSON
-	}	
+	}
 		//render (['status':(!dp || dp.licensRevoked || !dp.enabled || dp.delay && dp.delayTo<new Date())]) as JSON
 //		if(!dp || dp.licensRevoked || !dp.enabled){
 //			render (['status':!dp || dp.licensRevoked || !dp.enabled]) as JSON

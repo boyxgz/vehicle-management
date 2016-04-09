@@ -71,7 +71,7 @@
                     <dl class="dl-horizontal">
 						<dt>
 							<label for="branch"> <g:message
-									code="label.vehicle.gotDate" default="gotDate"
+									code="label.vehicle.gotDateBuy" default="gotDateBuy"
 									class="form-control" /> <span class="required-indicator">*</span>
 							</label>
 						</dt>
@@ -238,7 +238,7 @@
 					<dl class="dl-horizontal">
 						<dt>
 							<label for="branch"> <g:message
-									code="label.vehicle.manufacturer" default="manufacturer"
+									code="label.vehicle.manufacturerBuy" default="manufacturerBuy"
 									class="form-control" /> <span class="required-indicator">*</span>
 							</label>
 						</dt>
