@@ -29,7 +29,7 @@
 <script src="${resource(dir:'jarvis/js',file:'bootstrap-datetimepicker.zh-CN.js') }"></script>
 <script src="${resource(dir:'jarvis/js',file:'jquery-ui.min.js') }"></script>
 <script src="${resource(dir:'jarvis/js',file:'jquery.cookie.js') }"></script>
-
+<script src="${resource(dir:'js',file:'bootstrap-tooltip.js') }"></script>
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 <!--[if lt IE 9]>

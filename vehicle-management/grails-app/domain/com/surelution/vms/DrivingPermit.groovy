@@ -11,7 +11,7 @@ class DrivingPermit {
     static constraints = {
 		delayTo nullable:true;
 		revokeDate nullable:true;
-		age nullable:true;
+//		age nullable:true;
 		dpNO unique:true
     }
 	
@@ -26,7 +26,7 @@ class DrivingPermit {
 	
 	String name  //驾驶员姓名
 	String description   //描述
-	int age    //年龄
+//	int age    //年龄
 	Date birthDay	//出生日期
 	Sex sex   //性别
 	enum Sex{

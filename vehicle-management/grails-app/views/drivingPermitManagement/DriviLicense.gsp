@@ -21,7 +21,7 @@
 <section class="content">
 <div class="box box-info">
 	<div id="list-user" class="content scaffold-lis" role="main">
-		<g:uploadForm action="DriviLicense">
+		<%--<g:uploadForm action="DriviLicense">
 		<div class="box-body">
 			<dl class="dl-horizontal" style="margin-left:-80px;">
 				<dt>
@@ -40,7 +40,7 @@
 				</dd>
 			</dl>
 		</div>
-		</g:uploadForm>
+		</g:uploadForm>--%>
 
 		<%--<span>
 			<g:link class="create glyphicon glyphicon-plus" action="create" style="color:#000; font-weight:bold;" data-toggle="modal" data-target="#myModal" >&nbsp;chaxun<g:message code="default.new.label" args="[entityName]" /></g:link>

@@ -16,6 +16,7 @@ class Vehicle {
 		scrapped nullable:true
 		
 		vehicleNO unique:true
+		obdId nullable:true
     }
 	
 	Date recordTime  //车辆记录在册时间
@@ -25,7 +26,7 @@ class Vehicle {
 	Double price //价格
 	String  vehicleModel //发动机型
 	String  vehicleNO   //车牌号
-	String  OBDId		//车载设备ID
+	String  obdId		//车载设备ID
 	String  vehicleBrand  //厂牌型号
 	
 	DynImage vehiclePhoto  //车辆照片

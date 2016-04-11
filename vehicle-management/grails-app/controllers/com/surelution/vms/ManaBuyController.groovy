@@ -127,7 +127,7 @@ class ManaBuyController {
 		    vehicle.enabled = false   //1表示true 有使用权
 		}
 		vehicle.vehiclePhoto = image1
-		
+		println vehicle.save(flush:true)
 		if(vehicle.save(flush:true)){
 			redirect(action:'list')
 		}else{

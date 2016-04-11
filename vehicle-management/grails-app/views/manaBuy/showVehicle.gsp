@@ -100,7 +100,7 @@
 						</dt>
 						<dd>
 							<div class="col-xs-8">
-								<input type="text" name="vOwner" class="form-control" required=""/>
+								<input type="text" name="vOwner" class="form-control" required="required"/>
 							</div>
 						</dd>
 					</dl>
@@ -127,7 +127,7 @@
 						</dt>
 						<dd>
 							<div class="col-xs-8">
-								<input type="file" class="form-control" name="vehiclePhoto" required=""/>
+								<input type="file" class="form-control" name="vehiclePhoto" required="required"/>
 							</div>
 						</dd>
 					</dl>
@@ -140,7 +140,7 @@
 						</dt>
 						<dd>
 							<div class="col-xs-8">
-								<input type="text" name="vehicleType" class="form-control" required="" />
+								<input type="text" name="vehicleType" class="form-control" required="required" />
 							</div>
 						</dd>
 					</dl>
@@ -153,7 +153,7 @@
 						</dt>
 						<dd>
 							<div class="col-xs-8">
-								<input type="text" name="vehicleNO" class="form-control" required=""/>
+								<input type="text" name="vehicleNO" class="form-control" required="required"/>
 							</div>
 						</dd>
 					</dl>
@@ -166,7 +166,7 @@
 						</dt>
 						<dd>
 							<div class="col-xs-8">
-								<input type="text" name="vehicleModel" class="form-control" required=""/>
+								<input type="text" name="vehicleModel" class="form-control" required="required"/>
 							</div>
 						</dd>
 					</dl>
@@ -179,7 +179,7 @@
 						</dt>
 						<dd>
 							<div class="col-xs-8">
-								<input type="text" name="vehicleBrand" class="form-control" required=""/>
+								<input type="text" name="vehicleBrand" class="form-control" required="required"/>
 							</div>
 						</dd>
 					</dl>
@@ -192,7 +192,7 @@
 						</dt>
 						<dd>
 							<div class="col-xs-8">
-								<input type="text" name="price" class="form-control" required=""/>
+								<input type="text" name="price" class="form-control" required="required"/>
 							</div>
 						</dd>
 					</dl>
@@ -218,7 +218,7 @@
 						</dt>
 						<dd>
 							<div class="col-xs-8">
-								<input type="checkbox" checked="checked" name="enabled" value="1" id="chx2" required=""/>
+								<input type="checkbox" checked="checked" name="enabled" value="1" id="chx2" required="required"/>
 							</div>
 						</dd>
 					</dl>
@@ -231,7 +231,7 @@
 						</dt>
 						<dd>
 							<div class="col-xs-8">
-								<input type="file" class="form-control" name="billPhoto" required=""/>
+								<input type="file" class="form-control" name="billPhoto" required="required"/>
 							</div>
 						</dd>
 					</dl>
@@ -244,7 +244,7 @@
 						</dt>
 						<dd>
 							<div class="col-xs-8">
-								<input type="text" name="manufacturer" class="form-control" required=""/>
+								<input type="text" name="manufacturer" class="form-control" required="required"/>
 							</div>
 						</dd>
 					</dl>
@@ -257,7 +257,7 @@
 						</dt>
 						<dd>
 							<div class="col-xs-8">
-								<input type="text" name="buyMan" class="form-control" required=""/>
+								<input type="text" name="buyMan" class="form-control" required="required"/>
 							</div>
 						</dd>
 					</dl>

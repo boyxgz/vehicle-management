@@ -53,11 +53,11 @@
 	               <th><g:message code="label.vehicle.insureEndDate" default="insureEndDate"/></th>
 	                <td><g:formatDate date="${vehicleSource.insureEndDate}" format="yyyy-MM-dd"/></td>
 	            </tr>
-	             <tr>
-	               <th><g:message code="label.vehicle.gotDate" default="gotDate"/></th>
-	               <td><g:formatDate date="${vehicleSource.vsource.gotDate }" format="yyyy-MM-dd"/></td>
-	            </tr>
 	            <g:if test="${vehicleSource.vsource.title=='购买' }">
+	            	<tr>
+		               <th><g:message code="label.vehicle.gotDateBuy" default="gotDateBuy"/></th>
+		               <td><g:formatDate date="${vehicleSource.vsource.gotDate }" format="yyyy-MM-dd"/></td>
+		            </tr>
 	                 <tr>
 	                    <th><g:message code="label.vehicle.buyMan" default="buyMan"/></th>
 	                    <td>${vehicleSource.vsource.buyMan}</td>
@@ -94,6 +94,10 @@
 	                 </g:if>
 	            </g:if>
 	            <g:if test="${vehicleSource.vsource.title=='租赁' }">
+	            	<tr>
+		               <th><g:message code="label.vehicle.gotDateRent" default="gotDateRent"/></th>
+		               <td><g:formatDate date="${vehicleSource.vsource.gotDate }" format="yyyy-MM-dd"/></td>
+		            </tr>
 	                 <tr>
 	                    <th><g:message code="label.vehicle.rentTo" default="rentTo"/></th>
 	                    <td><g:formatDate date="${vehicleSource.vsource.rentTo }" format="yyyy-MM-dd"/></td>

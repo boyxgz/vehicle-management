@@ -117,7 +117,6 @@
 </script>
 <style>
 	li.hover{background-color:red;}
-	ul{border:1px solid red;}
 	li{list-style: none;}
 	#showList{    
 			position: absolute;
@@ -139,7 +138,7 @@
 				</h1>
 			</section>
 			<section class="content">
-			   <div class="box box-info">
+			   <%--<div class="box box-info">
                   <div class="box-header with-border">
                      <h4 class="box-title">车辆查询</h4>
                   </div>
@@ -163,7 +162,7 @@
 					</fieldset>
 					</g:form>
                   </div>
-                </div>
+                </div>--%>
                 
                 <table class="table table-bordered  table-striped">
                     <thead>

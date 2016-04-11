@@ -25,7 +25,7 @@ class Insure {
 	int insureContractNo  //保险合同编号 
 
 	/**
-	 * 保险日期
+	 * 保险公司
 	 */
 	Insurer insurer
 	

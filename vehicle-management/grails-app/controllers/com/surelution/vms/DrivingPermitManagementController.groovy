@@ -89,7 +89,6 @@ class DrivingPermitManagementController {
 		d.description = description
 		d.sex = sex
 		d.birthDay = params.date('birthDay','yyyy.MM.dd')
-		d.age = 0
 		d.dlicense = dlicense
 		d.borrowNum = 0
 		d.dlligle = " "
