@@ -1,4 +1,3 @@
-
 <%@ page import="com.surelution.vms.User" %>
 <!DOCTYPE html>
 <html>
@@ -8,7 +7,7 @@
 	
 	<script type="text/javascript">
 $('#document').ready(function(){
-	if($('#vehi').val() == ''){
+	if($('#vehicleCheckIn').val() == ''){
 		$('#save').prop('disabled',true);
 	}
 });
@@ -25,9 +24,7 @@ $('#document').ready(function(){
 	</section>
 <section class="content">
 <div style="margin-top:2px; margin-left:10%; font-size:22px; font-weight:bold; color:red;">
-<g:if test="${flash.message }">
-${flash.message }
-</g:if>
+	<g:if test="${flash.message }">${flash.message }</g:if>
 </div>
 <dl class="dl-horizontal" style="margin-left:-80px;">
 	<dt>
@@ -38,7 +35,7 @@ ${flash.message }
 	<g:form action="checkIn">
 	<dd>
 		<div class="col-xs-6">
-		<input type="text" name="vehicleNO" value="${params.vehicleNO }" class="form-control" required>
+		<input type="text" name="vehicleNOCheckIn" value="${params.vehicleNOCheckIn }" class="form-control" required>
 		</div>
 		<fieldset class="buttons">
 		<g:submitButton name="search" class="search btn btn-primary" value="${message(code: 'default.button.search.label', default: 'search')}" />
@@ -56,7 +53,7 @@ ${flash.message }
 	</dt>
 	<dd>
 		<div class="col-xs-8">
-		<input type="text" name="vehicleType" value="${vehi?.vehicleType}" class="form-control" readonly="readonly">
+		<input type="text" name="vehicleType" value="${vehicleCheckIn?.vehicleType}" class="form-control" readonly="readonly">
 		</div>
 	</dd>
 </dl>
@@ -65,12 +62,12 @@ ${flash.message }
 <dl class="dl-horizontal" style="margin-left:-80px;">
 	<dt>
 	<label for="branch">
-		<g:message code="label.vehicle.vsource" default="vsource" />
+		<g:message code="label.vehicle.vsources" default="vsource" />
 	</label>
 	</dt>
 	<dd>
 		<div class="col-xs-8">
-		   <input type="text" name="vsource" value="${vehi?.vsource?.title}" class="form-control" readonly="readonly">
+		   <input type="text" name="vsource" value="${vehicleCheckIn?.vsource?.title}" class="form-control" readonly="readonly">
 		</div>
 	</dd>
 </dl>
@@ -96,7 +93,7 @@ ${flash.message }
 	</dt>
 	<dd>
 		<div class="col-xs-8">
-		<g:textField value="${params.illgletime }" name="illgletime" id="datetimepicker" class="form-control col-xs-4" required=''/>
+		<g:textField value="${params.illgletime }" name="illgleTime" id="datetimepicker" class="form-control col-xs-4" required=''/>
 		<script type="text/javascript">
 		$('#datetimepicker').datetimepicker({
 			isRTL:false,
@@ -161,14 +158,13 @@ ${flash.message }
 		</div>
 	</dd>
 </dl>
-<input type="hidden" value="${vehi }" id="vehi">
-<input type="hidden" value="${vehi?.id}" name="vehicleNO"/>
+<%--<input type="hidden" value="${vehicleCheckIn }" id="vehicleCheckId" name="vehicleCheckId">--%>
+<input type="hidden" value="${params.vehicleNOCheckIn}" id="vehicleNOSave" name="vehicleNOSave"/>
 <fieldset class="buttons">
 	<g:submitButton name="save" id="save" class="save btn btn-primary" value="${message(code: 'default.button.save.label', default: 'save')}" />
 </fieldset>
 </g:uploadForm>
 </section>
-</div>
 </div>
 </body>
 </html>

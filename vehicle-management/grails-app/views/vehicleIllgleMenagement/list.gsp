@@ -1,4 +1,4 @@
-
+<%@page import="com.surelution.vms.Vehicle" %>>
 <%@page import="java.awt.Desktop.Action"%>
 <%@ page import="com.surelution.vms.User" %>
 <!DOCTYPE html>
@@ -85,12 +85,12 @@
 			</td>
 			<td>
 				<g:if test="${illgel.vehicleInUse == null}">
-					${illgel?.vehicle?.vehicleNO }
-					 
+					<g:set var="vehicle" value="${illgel?.vehicle }" />
 				</g:if>
 				<g:else>
-					${illgel?.vehicleInUse?.vehicle?.vehicleNO }
+					<g:set var="vehicle" value="${illgel?.vehicle }" />
 				</g:else>
+				${Vehicle.vehicleNO(vehicle) }
 			</td>
 			<td><g:formatDate date="${illgel?.illgleTime }" format="yyyy-MM-dd HH:mm"/></td>
 			<td>${illgel?.location }</td>

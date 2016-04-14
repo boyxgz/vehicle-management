@@ -10,7 +10,7 @@
 	</head>
 	<body>
 		<div class="modal-header">
-			<h2><g:message code="default.edit.label" args="[entityName]" /></h2>
+			<h2><g:message code="default.editInsurer.label" args="[entityName]" /></h2>
 		</div>
 		<g:form method="post" >
 		<div class="modal-body">
@@ -37,7 +37,7 @@
 			</dl>
 			<dl class="dl-horizontal">
 				<dt>
-					<label class="branch"><g:message code="insurer.tel.laeel" default="Tel"/></label>
+					<label class="branch"><g:message code="insurer.tel.label" default="Tel"/></label>
 				</dt>
 				<dd>
 					<g:textField name="tel" class="form-control" value="${insurerInstance?.tel }" />

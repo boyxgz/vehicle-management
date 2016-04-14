@@ -19,55 +19,6 @@
 			</section>
 			<section class="content">
 				<g:uploadForm action="saveVehicle">
-
-					<%--<dl class="dl-horizontal">
-						<dt>
-							<label for="branch"> <g:message
-									code="label.vehicle.recordTime" default="recordTime"
-									class="form-control" /> <span class="required-indicator">*</span>
-							</label>
-						</dt>
-						<dd>
-							<div class="col-xs-8">
-								<g:textField name="recordTime" value="${params.recordTime}"
-									id="datetimepicker" class="form-control" />
-								<script type="text/javascript">
-									$('#datetimepicker').datetimepicker({
-										isRTL : false,
-										format : 'yyyy.mm.dd',
-										autoclose : true,
-										minView : 'month',
-										language : 'zh-CN'
-									});
-								</script>
-							</div>
-						</dd>
-					</dl>
-					
-					--%><dl class="dl-horizontal">
-						<dt>
-							<label for="branch"> <g:message
-									code="label.vehicle.insureEndDate" default="insureEndDate"
-									class="form-control" /> <span class="required-indicator">*</span>
-							</label>
-						</dt>
-						<dd>
-							<div class="col-xs-8">
-								<g:textField name="insureEndDate" value="${params.insureEndDate}"
-									id="datetimepicker4" class="form-control" required=""/>
-								<script type="text/javascript">
-									$('#datetimepicker4').datetimepicker({
-										isRTL : false,
-										format : 'yyyy.mm.dd',
-										autoclose : true,
-										minView : 'month',
-										language : 'zh-CN'
-									});
-								</script>
-							</div>
-						</dd>
-					</dl>
-
                     <dl class="dl-horizontal">
 						<dt>
 							<label for="branch"> <g:message
@@ -78,9 +29,9 @@
 						<dd>
 							<div class="col-xs-8">
 								<g:textField name="gotDate" value="${params.dateBegin}"
-									id="datetimepicker1" class="form-control" required=""/>
+									id="gotDate" class="form-control" required=""/>
 								<script type="text/javascript">
-									$('#datetimepicker1').datetimepicker({
+									$('#gotDate').datetimepicker({
 										isRTL : false,
 										format : 'yyyy.mm.dd',
 										autoclose : true,
@@ -88,59 +39,6 @@
 										language : 'zh-CN'
 									});
 								</script>
-							</div>
-						</dd>
-					</dl>
-					<dl class="dl-horizontal">
-						<dt>
-							<label for="branch"> <g:message
-									code="label.vehicle.vOwner" default="vOwner" /> <span
-								class="required-indicator">*</span>
-							</label>
-						</dt>
-						<dd>
-							<div class="col-xs-8">
-								<input type="text" name="vOwner" class="form-control" required="required"/>
-							</div>
-						</dd>
-					</dl>
-					<%--<dl class="dl-horizontal">
-						<dt>
-							<label for="branch"> <g:message
-									code="label.vehicle.status" default="statu" /> <span
-								class="required-indicator">*</span>
-							</label>
-						</dt>
-						<dd>
-							<div class="col-xs-8">
-								<g:select name="status" from="${Vehicle.PrerepairStatus.values()}"
-									class="form-control" />
-							</div>
-						</dd>
-					</dl>
-					--%><dl class="dl-horizontal">
-						<dt>
-							<label for="branch"> <g:message
-									code="label.vehicle.vehiclePhoto" default="vehiclePhoto"
-									class="form-control" /> <span class="required-indicator">*</span>
-							</label>
-						</dt>
-						<dd>
-							<div class="col-xs-8">
-								<input type="file" class="form-control" name="vehiclePhoto" required="required"/>
-							</div>
-						</dd>
-					</dl>
-					<dl class="dl-horizontal">
-						<dt>
-							<label for="branch"> <g:message
-									code="label.vehicle.vehicleType" default="vehicleType" /> <span
-								class="required-indicator">*</span>
-							</label>
-						</dt>
-						<dd>
-							<div class="col-xs-8">
-								<input type="text" name="vehicleType" class="form-control" required="required" />
 							</div>
 						</dd>
 					</dl>
@@ -153,7 +51,45 @@
 						</dt>
 						<dd>
 							<div class="col-xs-8">
-								<input type="text" name="vehicleNO" class="form-control" required="required"/>
+							<table>
+								<tr>
+									<td>
+										<g:select name="province" from="${com.surelution.vms.Province.list() }" class="form-control" optionKey="id" optionValue="name" required="" style="width:100px;"/>
+									</td>
+									<td>
+										<g:select name="areaCode" from="${'A'..'Y'}" class="form-control" keys="" style="width:100px;"/>
+									</td>
+									<td>
+										<input type="text" name="no" class="form-control" required="required"/>
+									</td>
+								</tr>
+							</table>
+							</div>
+						</dd>
+					</dl>
+					<dl class="dl-horizontal">
+						<dt>
+							<label for="branch"> 
+								<g:message code="label.vehicle.vehicleBrand" default="vehicleBrand" class="form-control" /> 
+								<span class="required-indicator">*</span>
+							</label>
+						</dt>
+						<dd>
+							<div class="col-xs-8">
+								<input type="text" name="vehicleBrand" class="form-control" required="required"/>
+							</div>
+						</dd>
+					</dl>
+					<dl class="dl-horizontal">
+						<dt>
+							<label for="branch"> 
+								<g:message code="label.vehicle.vehicleType" default="vehicleType" /> 
+								<span class="required-indicator">*</span>
+							</label>
+						</dt>
+						<dd>
+							<div class="col-xs-8">
+								<input type="text" name="vehicleType" class="form-control" required="required" />
 							</div>
 						</dd>
 					</dl>
@@ -172,22 +108,22 @@
 					</dl>
 					<dl class="dl-horizontal">
 						<dt>
-							<label for="branch"> <g:message
-									code="label.vehicle.vehicleBrand" default="vehicleBrand"
-									class="form-control" /> <span class="required-indicator">*</span>
+							<label for="branch"> 
+								<g:message code="label.vehicle.carFrame" default="carFrame" /> 
+								<span class="required-indicator">*</span>
 							</label>
 						</dt>
 						<dd>
 							<div class="col-xs-8">
-								<input type="text" name="vehicleBrand" class="form-control" required="required"/>
+								<input type="text" name="carFrame" class="form-control" required="required"/>
 							</div>
 						</dd>
 					</dl>
 					<dl class="dl-horizontal">
 						<dt>
-							<label for="branch"> <g:message
-									code="label.vehicle.price" default="price" /> <span
-								class="required-indicator">*</span>
+							<label for="branch"> 
+								<g:message code="label.vehicle.price" default="price" /> 
+								<span class="required-indicator">*</span>
 							</label>
 						</dt>
 						<dd>
@@ -196,29 +132,51 @@
 							</div>
 						</dd>
 					</dl>
-					<%--<dl class="dl-horizontal">
+					<dl class="dl-horizontal">
 						<dt>
-							<label for="branch"> <g:message
-									code="label.vehicle.inuse" default="inuse"
-									class="form-control" /> <span class="required-indicator">*</span>
+							<label for="branch">
+								<g:message code="label.vehicle.emmissionStand" default="emmissionStand" />
+								<span class="required-indicator">*</span>
 							</label>
 						</dt>
 						<dd>
 							<div class="col-xs-8">
-								<input type="checkbox" name="inuse" value="1" id="chx1"/>
+								<input type="text" name="emissionStand" class="form-control" required="required"/>
 							</div>
 						</dd>
 					</dl>
-					--%><dl class="dl-horizontal">
+					<dl class="dl-horizontal">
 						<dt>
-							<label for="branch"> <g:message
-									code="label.vehicle.enabled" default="enabled"
-									class="form-control" /> <span class="required-indicator">*</span>
+							<label for="branch">
+								<g:message code="label.vehicle.emmissionValidity" default="emmissionValidity" />
+								<span class="required-indicator">*</span>
 							</label>
 						</dt>
 						<dd>
 							<div class="col-xs-8">
-								<input type="checkbox" checked="checked" name="enabled" value="1" id="chx2" required="required"/>
+								<input type="text" name="emissionValidity" id="emissionValidity" class="form-control" required="required"/>
+								<script>
+									$('#emissionValidity').datetimepicker({
+										isRTL : false,
+										format : 'yyyy.mm.dd',
+										autoclose : true,
+										minView : 'month',
+										language : 'zh-CN'
+									});
+								</script>
+							</div>
+						</dd>
+					</dl>
+					<dl class="dl-horizontal">
+						<dt>
+							<label for="branch"> 
+								<g:message code="label.vehicle.vehiclePhoto" default="vehiclePhoto" class="form-control" /> 
+								<span class="required-indicator">*</span>
+							</label>
+						</dt>
+						<dd>
+							<div class="col-xs-8">
+								<input type="file" class="form-control" name="vehiclePhoto" required="required"/>
 							</div>
 						</dd>
 					</dl>
@@ -232,6 +190,21 @@
 						<dd>
 							<div class="col-xs-8">
 								<input type="file" class="form-control" name="billPhoto" required="required"/>
+							</div>
+						</dd>
+					</dl>
+					<!-- 	111111111											 -->
+					
+					<dl class="dl-horizontal">
+						<dt>
+							<label for="branch"> <g:message
+									code="label.vehicle.enabled" default="enabled"
+									class="form-control" /> <span class="required-indicator">*</span>
+							</label>
+						</dt>
+						<dd>
+							<div class="col-xs-8">
+								<input type="checkbox" checked="checked" name="enabled" value="1" id="chx2" required="required"/>
 							</div>
 						</dd>
 					</dl>

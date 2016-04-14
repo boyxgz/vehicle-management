@@ -17,7 +17,6 @@ class VehicleIllgle {
 		image nullable:true;
 		vehicleInUse nullable:true;
 		vehicle nullable:true;
-		
 		voucherID unique:true
     }
 	

@@ -8,6 +8,7 @@ package com.surelution.vms
 class Insurer {
 
     static constraints = {
+		tel nullable:true
     }
 	
 	String name

@@ -7,7 +7,7 @@
 	<body>
 	  <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">修改${drivi.name }的信息</h4>
+          <h4 class="modal-title">${drivi.name }的信息</h4>
         </div>
         <g:uploadForm action="update" method="post" >
          <div class="modal-body">
@@ -27,7 +27,19 @@
 							</div>
 						</dd>
 					</dl>
-					
+					<dl class="dl-horizontal">
+						<dt>
+							<label for="name">
+					        	<g:message code="label.DrivingPermit.cardId" default="cardId" />
+					        	<span class="required-indicator">*</span>
+					        </label>
+						</dt>
+						<dd>
+							<div class="col-xs-8">
+							    <g:textField name="cardId" id="cardId" value="${drivi?.cardId}" class="form-control"/>
+							</div>
+						</dd>
+					</dl>
 					<dl class="dl-horizontal">
 						<dt>
 							<label for="name">

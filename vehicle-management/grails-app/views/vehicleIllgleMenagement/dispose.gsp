@@ -1,5 +1,6 @@
 <%@page import="com.surelution.vms.DrivingPermit"%>
-<%@ page contentType="text/html;charset=UTF-8"%>
+<%@page import="com.surelution.vms.Vehicle" %>
+<%@page contentType="text/html;charset=UTF-8"%>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -51,7 +52,7 @@
 	<g:form action="dispose">
 	<dd>
 		<div class="col-xs-6">
-		<input type="text" name="voucherID" value="${illgle?.voucherID }"class="form-control" required="">
+		<input type="text" name="voucherID" value="${illgle?.voucherID }"class="form-control" required="required">
 		</div>
 		<fieldset class="buttons">
 		<g:submitButton name="search" class="search btn btn-primary" value="${message(code: 'default.button.search.label', default: 'search')}" />
@@ -76,7 +77,7 @@ ${flash.message }
 	</dt>
 	<dd>
 		<div class="col-xs-8">
-			<input type="text" name="vehicleNO" value="${vehicle?.vehicleNO}" class="form-control" readonly="readonly">
+			<input type="text" name="vehicleNO" value="${Vehicle.vehicleNO(vehicle)}" class="form-control" readonly="readonly">
 		</div>
 	</dd>
 </dl>
@@ -157,7 +158,7 @@ ${flash.message }
 	<dd>
 		<div class="col-xs-8">
 		<g:if test="${illgle?.image }">
-		<img src="${createLink(action:'showimage',controller:'VehicleIllgleMenagement',id:illgle?.id)}" class="img-rounded" style="width: 100px; height: 100px;">
+		<img src="${createLink(action:'showPic',controller:'VehicleIllgleMenagement',id:illgle?.id)}" class="img-rounded" style="width: 100px; height: 100px;">
 		</g:if>
 		</div>
 	</dd>

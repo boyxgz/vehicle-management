@@ -22,13 +22,26 @@
 		<dl class="dl-horizontal">
 			<dt>
 				<label for="bransh">
-					<g:message code="zhuanjiaz" default="准驾证号码"/>
+					<g:message code="zhuanjiaz" default="准驾证编号"/>
 					<span class="required-indicator">*</span>
 				</label>
 			</dt>
 			<dd>
 				<div class="col-xs-8">
 					<input type="text" class="form-control" name="dp" required/>
+				</div>
+			</dd>	
+		</dl>
+		<dl class="dl-horizontal">
+			<dt>
+				<label for="bransh">
+					<g:message code="cardId" default="卡号"/>
+					<span class="required-indicator">*</span>
+				</label>
+			</dt>
+			<dd>
+				<div class="col-xs-8">
+					<input type="text" class="form-control" name="cardId" required/>
 				</div>
 			</dd>	
 		</dl>

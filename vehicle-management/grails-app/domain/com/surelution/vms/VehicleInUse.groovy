@@ -40,5 +40,4 @@ class VehicleInUse {
 	boolean isReturn //是否归还
 	
 	
-	
 }

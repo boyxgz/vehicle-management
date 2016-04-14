@@ -10,7 +10,7 @@
 	<body>
 	<div class="content-wrapper">
 		<section class="content-header">
-			<h1><g:message code="default.show.label" args="[entityName]" /></h1>
+			<h1>${insurerInstance.name }</h1>
 		</section>
 		<section class="content">
 		<div id="show-insurer" class="content scaffold-show" role="main">

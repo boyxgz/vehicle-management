@@ -19,23 +19,47 @@
 		</section>
 		<section class="content">
 		<div id="list-insure" class="box box-info" role="main">
-			<div class="box-body"><g:link class="create" action="create" class="btn btn-default" data-toggle="modal" data-target="#insureCreate"><g:message code="default.new.label" args="[entityName]" /></g:link></div>
+			<div class="box-body">
+			<table style="width:40%;">
+				<tr>
+					<td align="left">
+						<g:link class="create" action="create" class="btn btn-default" data-toggle="modal" data-target="#insureCreate"><g:message code="default.new.label" args="[entityName]" /></g:link>
+					</td>
+					<td align="left">
+						<g:select name="states" id="states" value="${states.name() }" from="${Insure.InsureState.values()}" class="form-control" keys="${Insure.InsureState.values()*.name()}" />
+						<script type="text/javascript">
+							$("#states").change(function(){
+								var value = $("#states").val();
+								if(value == "VALID"){
+									location.href = "${createLink(action:'list',id:"VALID")}";
+								}else if(value == "EXPIRE"){
+									location.href = "${createLink(action:'list',id:"EXPIRE")}";
+								}else{
+									location.href = "${createLink(action:'list')}";
+								}
+							});
+						</script>
+					</td>
+				</tr>
+			</table>
+			</div>
 			<g:if test="${flash.message}">
 				<div class="message" role="status">${flash.message}</div>
 			</g:if>
 			<table class="table table-bordered table-respose">
 				<thead>
 					<tr>
-					
-						<g:sortableColumn class="alink" property="detail" title="${message(code: 'insure.detail.label', default: 'Detail')}" />
-					
+						<g:sortableColumn class="alink" property="insureContractNo" title="${message(code: 'insure.insureContractNo.label', default: 'Insure Contract No')}" />
+						
+						<th>保险机构</th>
+						
+						<th>缴纳保费</th>
+						
 						<g:sortableColumn class="alink" property="effectivedAt" title="${message(code: 'insure.effectivedAt.label', default: 'Effectived At')}" />
 					
 						<g:sortableColumn class="alink" property="expiredAt" title="${message(code: 'insure.expiredAt.label', default: 'Expired At')}" />
 					
 						<g:sortableColumn class="alink" property="firstInsure" title="${message(code: 'insure.firstInsure.label', default: 'First Insure')}" />
-					
-						<g:sortableColumn class="alink" property="insureContractNo" title="${message(code: 'insure.insureContractNo.label', default: 'Insure Contract No')}" />
 					
 						<g:sortableColumn class="alink" property="insureMan" title="${message(code: 'insure.insureMan.label', default: 'Insure Man')}" />
 						
@@ -46,15 +70,16 @@
 				<g:each in="${insureInstanceList}" status="i" var="insureInstance">
 					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
 					
-						<td><g:link action="show" id="${insureInstance.id}">${fieldValue(bean: insureInstance, field: "detail")}</g:link></td>
+						<td><g:link action="show" id="${insureInstance.id}">${fieldValue(bean: insureInstance, field: "insureContractNo")}</g:link></td>
 					
-						<td><g:formatDate date="${insureInstance.effectivedAt}" /></td>
+						<td>${insureInstance?.insurer?.name }</td>
+						
+						<td>${insureInstance?.insureMoney }</td>
+						<td><g:formatDate date="${insureInstance.effectivedAt}" format="yyyy.MM.dd"/></td>
 					
-						<td><g:formatDate date="${insureInstance.expiredAt}" /></td>
+						<td><g:formatDate date="${insureInstance.expiredAt}" format="yyyy.MM.dd"/></td>
 					
 						<td><g:formatBoolean boolean="${insureInstance.firstInsure}" /></td>
-					
-						<td>${fieldValue(bean: insureInstance, field: "insureContractNo")}</td>
 					
 						<td>${fieldValue(bean: insureInstance, field: "insureMan")}</td>
 						

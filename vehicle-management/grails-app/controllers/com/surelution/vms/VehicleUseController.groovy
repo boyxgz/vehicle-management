@@ -1,6 +1,7 @@
 package com.surelution.vms
 
 import java.text.SimpleDateFormat;
+import java.lang.String;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
@@ -41,7 +42,12 @@ class VehicleUseController {
 	//还车页面
 	def returnVehicle(){
 		def carNO = params.carNO
-		def dp = DrivingPermit.findByDpNO(carNO)
+		def dp = DrivingPermit.createCriteria().list{
+			or{
+				eq "dpNO",carNO
+				eq "cardId",carNO
+			}
+		}[0]
 		
 		if(carNO!=null && dp!=null && dp.licensRevoked==true ){
 			flash.message="该准驾证已经吊销"
@@ -54,6 +60,7 @@ class VehicleUseController {
 			  eq('drivingPermit',dp)
 			 }
 		}
+		flash.message = dp != null && vehicleInUseList.size() == 0 ? "没有借车信息！！！" : "";
 		[vehicleInuseList:vehicleInUseList]
 	}
 	
@@ -67,7 +74,7 @@ class VehicleUseController {
 	def lendVehicle(){
 		def dpid = params.dpId
 		def dp = DrivingPermit.get(dpid) 
-		dp.borrowNum+=1
+		dp.borrowNum += 1
 		dp.save(flush:true)
 		
 		def vehicleId = params.vehicleId
@@ -77,7 +84,6 @@ class VehicleUseController {
 		
 		
 		def borrowTime = params.date('borrowTime','yyyy.MM.dd HH:mm')
-		println borrowTime
 		def expectReturnTime = params.date('expectReturnTime',"yyyy.MM.dd HH:mm")
 		def reason = params.reason
 		//def receiveMile = params.double('receiveMile')
@@ -109,8 +115,6 @@ class VehicleUseController {
 		
 		SimpleDateFormat fmt = new SimpleDateFormat("yyyy.MM.dd HH:mm");    
 		def returnTime = fmt.parse(returnT)   
-		
-		println returnTime
 		
 		def returnMile = params.double('returnMile')
 		def receiveMile = params.double('receiveMile')
@@ -166,79 +170,93 @@ class VehicleUseController {
 	//检查驾驶员信息
 	def checkDrivingPermit(){
 		def drivingPermit = params.drivingPermit
-		def dp = DrivingPermit.findByDpNO(drivingPermit)
-		
-		if(dp==null || dp.licensRevoked==true || dp.enabled==false){
+//		def dp = DrivingPermit.findByDpNO(drivingPermit)
+		def dp = DrivingPermit.createCriteria().list{
+			or{
+				eq("dpNO",drivingPermit)
+				eq("cardId",drivingPermit)
+			}
+		}
+		if(dp[0] == null || dp[0].licensRevoked==true || dp[0].enabled==false){
 			render false
-		}else if(dp.delay==true && dp.delayTo<new Date()){
+		}else if(dp[0].delay==true && dp[0].delayTo<new Date()){
 			render false
 		}else{
-		   render dp.collect(){['id':dp.id,'name':dp.name,'dlicense':dp.dlicense,'dpNO':dp.dpNO,'enabled':dp.enabled?"正常":""]} as JSON
+		   render dp[0].collect(){['id':dp[0].id,'name':dp[0].name,'dlicense':dp[0].dlicense,'dpNO':dp[0].dpNO,'enabled':dp[0].enabled?"正常":""]} as JSON
 		
 		   }
 	}
 	
 	def pushData(){
-		println params.keyword
 		def vehicle = Vehicle.createCriteria().list {
 			like("vehicleNO","%"+params.keyword+"%");
 		}
-		println vehicle
 		def vehicleNo = [];
 		vehicleNo = vehicle.collect(){
 			[vehicle:it.vehicleNO];
 		}
 		render vehicleNo as JSON
 	}
-		//render (['status':(!dp || dp.licensRevoked || !dp.enabled || dp.delay && dp.delayTo<new Date())]) as JSON
-//		if(!dp || dp.licensRevoked || !dp.enabled){
-//			render (['status':!dp || dp.licensRevoked || !dp.enabled]) as JSON
-////			render false
-//		}else 
-	/*if(dp.delay && dp.delayTo<new Date()){
-		    render false
-		}else{
-	       render dp.collect(){[status:true, 'id':dp.id,'name':dp.name,'dlicense':dp.dlicense,'dpNO':dp.dpNO,'enabled':dp.enabled?"正常":""]} as JSON
+	
+	def reportFrom(Integer max){
+		params.max = Math.min(max ?: 10, 100)
+		//params.dpNO/params.vehicleNO/params.startDate/params.endDate
+		def startDate = params.date("startDate","yyyy.MM.dd")
+		def endDate = params.date("endDate","yyyy.MM.dd")
+		if(startDate == null){
+			startDate = new Date(0)
+		}
+		if(endDate == null){
+			endDate = new Date()
+		}
+		def dpNO = params.dpNO
+		
+		String vehicleNO = params.vehicleNO
+		def province
+		def areaCode
+		def no
+		if(vehicleNO != null && vehicleNO.length() > 3){
+			province = new String(vehicleNO.charAt(0))
+			areaCode = new String(vehicleNO.charAt(1))
+			no = vehicleNO.substring(2)
+		}
+		def vehicleInUse
+		vehicleInUse = VehicleInUse.createCriteria().list {
+			createAlias("drivingPermit", "dp")
+			createAlias("vehicle","v")
+			createAlias("v.province","p")
+			if(dpNO){
+				or{
+					eq("dp.dpNO",dpNO)
+					eq "dp.cardId",dpNO
+				}
+			}
+			if(vehicleNO != null && vehicleNO.length() > 3){
+				and{
+					eq("v.no",no)
+					eq("p.name",province)
+					eq("v.areaCode",areaCode)
+				}
+			}
+			between("borrowTime",startDate,endDate)
+		}
+		
+		[vehicleInUse:vehicleInUse,vehicleInUseTotal:VehicleInUse.count()]
+		
+		/*if(startDate != null && endDate != null){
+			vehicleInUse = VehicleInUse.createCriteria().list{
+				between("borrowTime", startDate, endDate)
+				
+			}
+		}else if(startDate != null){
+			vehicleInUse = VehicleInUse.createCriteria().list {
+				gt("borrowTime", startDate)
+			}
+		}else if(endDate != null){
+			vehicleInUse = VehicleInUse.createCriteria().list{
+				lt("borrowTime", endDate)
+			}
 		}*/
 		
-
-	//保存图片的方法
-	/*def static savePic(DynImage image){
-		def location = Holders.config.grails.dynImage.rootPath
-		def uuid = UUID.randomUUID().toString()
-		def picUrl = "${location}${uuid}"
-		println picUrl
-		
-		if(photo && !photo.empty){
-			def name = photo.getOriginalFilename()
-			image.picUrl = picUrl
-			image.originPicName = name
-			image.save(flush:true)
-			photo.transferTo(new File(picUrl))
-		}
-	}*/
-	
-	//显示接车里程数照片
-	/*def showReceivePic(long id){
-		def vehicleInUse = VehicleInUse.get(id)
-		def pc = vehicleInUse.receivePic
-		def picUrl = pc.picUrl
-		File file = new File(picUrl)
-		def os = response.outputStream
-		os << file.bytes
-		os.flush()
-		return
-	}*/
-	
-	//显示交车里程数照片
-	/*def showReturnPic(long id){
-		def vehicleInUse = VehicleInUse.get(id)
-		def pc = vehicleInUse.returnPic
-		def picUrl = pc.picUrl
-		File file = new File(picUrl)
-		def os = response.outputStream
-		os << file.bytes
-		os.flush()
-		return
-	}*/
+	}
 }

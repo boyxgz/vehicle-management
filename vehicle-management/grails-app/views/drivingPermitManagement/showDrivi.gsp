@@ -107,7 +107,10 @@
 	     </div>
 	     
 	     <div style="position:absolute; right:80px; top:114px;">
+	     <g:if test="${drivi?.permitPic != null }">
 	     	<img alt="" src="${createLink(action:'showPic',id:drivi?.id) }" style="max-width:400px;">
+	     </g:if>
+	     <g:else>未上传驾驶证</g:else>
 	     </div>
 	</section>
 </div>

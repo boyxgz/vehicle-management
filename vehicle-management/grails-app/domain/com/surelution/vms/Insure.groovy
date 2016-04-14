@@ -11,6 +11,8 @@ import java.util.Date;
 class Insure {
 
     static constraints = {
+		insureMan nullable:true
+		detail nullable:true
     }
 	
 	static mapping = {
@@ -20,9 +22,9 @@ class Insure {
 	Vehicle vehicle  
 	String insureMan   //投保人
 	double insureMoney  //投保金额
-	String insureType   //保险类型
+	InsureType insureType   //保险类型
 	boolean firstInsure //是否为第一次投保
-	int insureContractNo  //保险合同编号 
+	String insureContractNo  //保险合同编号 
 
 	/**
 	 * 保险公司
@@ -45,4 +47,33 @@ class Insure {
 	Date insuredAt
 	
 	String detail
+	
+	InsureState states = InsureState.VALID
+	
+	enum InsureState{
+		EXPIRE,     //到期的
+		VALID,		//有效的
+		EVER
+		public String toString(){
+			KeyedMessage.findByKey("InsureState-" + name())?.message
+		}
+		
+		public String toString(String name){
+			super.toString()
+		}
+		
+	}
+	
+	/**
+	 * 保险类型
+	 *
+	 */
+	enum InsureType{
+		must,business
+		
+		public String toString(){
+			KeyedMessage.findByKey("InsureType-" + name())?.message
+		}
+	}
+	
 }

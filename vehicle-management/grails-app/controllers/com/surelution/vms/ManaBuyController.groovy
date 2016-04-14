@@ -28,7 +28,15 @@ class ManaBuyController {
 	//购入车辆显示列表
 	def list(){
 	   def statu
-	   def vehicleNO = params.vehicleNO
+		String vehicleNO = params.vehicleNO
+		def province
+		def areaCode
+		def no
+		if(vehicleNO != null && vehicleNO.length() > 3){
+			province = new String(vehicleNO.charAt(0))
+			areaCode = new String(vehicleNO.charAt(1))
+			no = vehicleNO.substring(2)
+		}
 	   def vehicleType = params.vehicleType
 	   def sta = params.status
 	   if(sta){
@@ -36,7 +44,12 @@ class ManaBuyController {
 	   }
 	   def vehicleResult = Vehicle.createCriteria().list {
 		   if(vehicleNO){
-			   eq('vehicleNO',vehicleNO)
+			   createAlias "province", "p" 
+			   and{
+				   eq("no",no)
+				   eq("areaCode",areaCode)
+				   eq("p.name",province)				   
+			   }
 		   }
 		   if(vehicleType){
 			   eq('vehicleType',vehicleType)
@@ -51,83 +64,37 @@ class ManaBuyController {
 	
 	//添加购入车辆
 	def saveVehicle(){
-		def recordTime = new Date()
-		def insureEndDate = params.date('insureEndDate','yyyy.MM.dd')
-		def vOwner = params.vOwner
-		def vehicleType = params.vehicleType
-		def price = params.double('price')
-		def vehicleModel = params.vehicleModel
-		def vehicleNO = params.vehicleNO
-		def vehicleBrand = params.vehicleBrand
-		def gotDate = params.date('gotDate','yyyy.MM.dd')
-		def manufacturer = params.manufacturer
-		def buyMan = params.buyMan
-		def status = 'NORMAL'
-		def inuse = false
-		def enabled = params.enabled
+		//图片存储
+		def billPhoto = DynImage.saveImage(request.getFile("billPhoto"))
+		def vehiclePhoto = DynImage.saveImage(request.getFile("vehiclePhoto"))
 		
-		
-		def image = new DynImage()
-		CommonsMultipartFile photo =  request.getFile("billPhoto")
-		def location = Holders.config.grails.dynImage.rootPath
-		def uuid = UUID.randomUUID().toString()
-		def picUrl = "${location}${uuid}"
-		println picUrl
-		
-		if(photo && !photo.empty){
-			def name = photo.getOriginalFilename()
-			image.picUrl = picUrl
-			image.originPicName = name
-			image.save(flush:true)
-			photo.transferTo(new File(picUrl))
-		}
+		//VehicleSource Save
 		def vehicleSource = new BuyVehicle()
-		vehicleSource.gotDate = gotDate
-		vehicleSource.manufacturer = manufacturer
-		vehicleSource.buyMan = buyMan
+		vehicleSource.gotDate = params.date("gotDate","yyyy.MM.dd")
+		vehicleSource.buyMan = params.buyMan
 		vehicleSource.title = "购买"
-		vehicleSource.billPhoto = image
-		
-		//println vehicleSource.errors
+		vehicleSource.manufacturer = params.manufacturer
+		vehicleSource.billPhoto = billPhoto
 		vehicleSource.save(flush:true)
-		
-		def image1 = new DynImage()
-		CommonsMultipartFile photo1 =  request.getFile("vehiclePhoto")
-		def location1 = Holders.config.grails.dynImage.rootPath
-		def uuid1 = UUID.randomUUID().toString()
-		def picUrl1 = "${location}${uuid}"
-		println picUrl
-		
-		if(photo1 && !photo.empty){
-			def name = photo1.getOriginalFilename()
-			image1.picUrl = picUrl
-			image1.originPicName = name
-			image1.save(flush:true)
-			photo1.transferTo(new File(picUrl))
-		}
 		def vehicle = new Vehicle()
-		vehicle.recordTime = recordTime
-		vehicle.vOwner = vOwner
-		vehicle.vehicleType = vehicleType
-		vehicle.price = price
-		vehicle.vehicleModel = vehicleModel
-		vehicle.vehicleNO = vehicleNO
-		vehicle.vehicleBrand = vehicleBrand
-		vehicle.statu = status
-		vehicle.insureEndDate = insureEndDate
+		vehicle.vehicleBrand = params.vehicleBrand
+		vehicle.vehicleType = params.vehicleType
+		vehicle.vehicleModel = params.vehicleModel
+		vehicle.carFrame = params.carFrame
+		vehicle.price = params.double("price")
+		vehicle.vehiclePhoto = vehiclePhoto
+		vehicle.recordTime = new Date()
 		vehicle.vsource = vehicleSource
-		/*if(inuse.equals('1')){
-			vehicle.inuse=true   //1表示true 正在使用
-		}else{
-		    vehicle.inuse=false
-		}*/
-		if(enabled.equals('1')){
+		vehicle.emissionStand = params.emissionStand
+		vehicle.emissionValidity = params.date("emissionValidity","yyyy.MM.dd")
+		vehicle.no = params.no
+		vehicle.areaCode = params.areaCode
+		vehicle.province = Province.get(params.int("province"))
+		if(params.enabled.equals('1')){
 			vehicle.enabled = true
 		}else{
 		    vehicle.enabled = false   //1表示true 有使用权
 		}
-		vehicle.vehiclePhoto = image1
-		println vehicle.save(flush:true)
 		if(vehicle.save(flush:true)){
 			redirect(action:'list')
 		}else{
@@ -192,28 +159,12 @@ class ManaBuyController {
 	
 	
 	def showVehicleSource(long id){
-		def vehicleSource = Vehicle.get(id)
-		[vehicleSource:vehicleSource]
+		[vehicleSource:Vehicle.get(id)]
 	}
 	
-	
-	//保存图片的方法
-	def  savePic(DynImage image){
-		CommonsMultipartFile  photo
-		def location = Holders.config.grails.dynImage.rootPath
-		def uuid = UUID.randomUUID().toString()
-		def picUrl = "${location}${uuid}"
-		println picUrl
-		
-		if(photo && !photo.empty){
-			def name = photo.getOriginalFilename()
-			image.picUrl = picUrl
-			image.originPicName = name
-			image.save(flush:true)
-			photo.transferTo(new File(picUrl))
-		}
+	def vehicleSourceEdit(long id){
+		[vehicleSource:Vehicle.get(id)]
 	}
-	
 	//显示公车图片的方法
 	def showPic(long id){
 		def vehicle = Vehicle.get(id)

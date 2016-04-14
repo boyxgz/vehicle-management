@@ -15,7 +15,7 @@
 	<body>
 	<div class="content-wrapper">
 		<section class="content-header">
-			<h1><g:message code="default.list.label" args="[entityName]" /></h1>
+			<h1><g:message code="default.listInsurer.label" args="[entityName]" /></h1>
 			<%--<a href="#list-insurer" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>--%>
 			<%--<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>--%>
 		</section>

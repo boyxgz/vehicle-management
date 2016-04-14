@@ -13,7 +13,7 @@
 	<body>
 	<div class="content-wrapper">
 		<section class="content-header">
-			<h1><g:message code="default.show.label" args="[entityName]" /></h1>
+			<h1><g:message code="default.showInsure.label" args="[entityName]" /></h1>
 		</section>
 		<section class="content">
 		<div id="show-insure" class="content scaffold-show" role="main">
@@ -32,11 +32,11 @@
 					</tr>
 					<tr>
 						<td><g:message code="insure.effectivedAt.label" default="Effectived At" /></td>
-						<td><g:formatDate date="${insureInstance?.effectivedAt}" /></td>
+						<td><g:formatDate date="${insureInstance?.effectivedAt}" format="yyyy.MM.dd"/></td>
 					</tr>
 					<tr>
 						<td><g:message code="insure.expiredAt.label" default="Expired At" /></td>
-						<td><g:formatDate date="${insureInstance?.expiredAt}" /></td>
+						<td><g:formatDate date="${insureInstance?.expiredAt}" format="yyyy.MM.dd"/></td>
 					</tr>
 					<tr>
 						<td><g:message code="insure.firstInsure.label" default="First Insure" /></td>
@@ -60,7 +60,7 @@
 					</tr>
 					<tr>
 						<td><g:message code="insure.insuredAt.label" default="Insured At" /></td>
-						<td><g:formatDate date="${insureInstance?.insuredAt}" /></td>
+						<td><g:formatDate date="${insureInstance?.insuredAt}" format="yyyy.MM.dd"/></td>
 					</tr>
 					<tr>
 						<td><g:message code="insure.insurer.label" default="Insurer" /></td>
@@ -68,7 +68,7 @@
 					</tr>
 					<tr>
 						<td><g:message code="insure.vehicle.label" default="Vehicle" /></td>
-						<td><g:link controller="manaBuy" action="showVehicleSource" id="${insureInstance?.vehicle?.id}">${insureInstance?.vehicle?.vehicleNO}</g:link></td>
+						<td><g:link controller="manaBuy" action="showVehicleSource" id="${insureInstance?.vehicle?.id}">${insureInstance?.vehicle?.vehicleType}</g:link></td>
 					</tr>
 				</tbody>
 			</table>

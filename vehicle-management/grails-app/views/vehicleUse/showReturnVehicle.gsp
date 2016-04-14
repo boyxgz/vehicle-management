@@ -24,7 +24,7 @@
 	        <tbody>
 	            <tr> 
 	               <th>车牌号码</th>
-	               <td>${vehicleInUse.vehicle.vehicleNO }</td>
+	               <td>${vehicleInUse.vehicle.province.name }${vehicleInUse.vehicle.areaCode }${vehicleInUse.vehicle.no }</td>
 	            </tr>
 	            <tr> 
 	               <th>车型</th>

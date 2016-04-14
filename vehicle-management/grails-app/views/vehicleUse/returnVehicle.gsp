@@ -42,11 +42,12 @@
 					</fieldset>
 					</g:form>
                   </div>
+					<g:if test="${flash.message}">
+						<div style="color: red; font-weight:bold; position: relative; left:125px; bottom:40px;">${flash.message }</div>
+					</g:if>	
                 </div>
                 
-                <g:if test="${flash.message}">
-                     <div style="color: red;">${flash.message }</div>
-                </g:if>
+                
                 
                 <table class="table table-bordered  table-striped">
                     <thead>
@@ -66,7 +67,7 @@
                             <td>${vehicleInUse.drivingPermit.dpNO}</td>
                             <td>${vehicleInUse.drivingPermit.name }</td>
                             <td>${vehicleInUse.vehicle.vehicleBrand }</td>
-                            <td>${vehicleInUse.vehicle.vehicleNO }</td>
+                            <td>${Vehicle.vehicleNO(vehicleInUse?.vehicle)}</td>
                             <td><g:formatDate date="${vehicleInUse.borrowTime}" format="yyyy-MM-dd HH:mm"/></td>
                             <td><g:formatDate date="${vehicleInUse.expectReturnTime }" format="yyyy-MM-dd HH:mm"/></td>
                             <td>

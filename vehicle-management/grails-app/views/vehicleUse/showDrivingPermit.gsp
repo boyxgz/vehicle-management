@@ -38,7 +38,7 @@
 						</dt>
 						<dd>
 							<div class="col-xs-8">
-								<div style="width:70%;float:left;"><input type="text" name="drivingPermit" id="drivingPermit" value="${params.drivingPermit }" class="form-control"/></div>
+								<div style="width:70%;float:left;"><input type="text" name="drivingPermit" id="drivingPermit" value="${params.drivingPermit }" class="form-control" onchange="check()"/></div>
 								<div style="float:left;"><input type="button" class="btn btn-primary" value="提交" onclick="check()"/></div>
 							</div>
 						</dd>
@@ -188,16 +188,21 @@
 	        dataType : "json",
 	        success : function(data) { 
 		        if(data==false){
-                  $("#message").html("该准驾证不可用，请检查准驾证信息！")
-                  $("#sub").prop('disabled', true);
+                  	$("#message").html("该准驾证不可用，请检查准驾证信息！")
+                  	$("#sub").prop('disabled', true);
+                  	$("#dpId").val(" ");
+		    	    $("#name").html(" ");
+			        $("#dlicense").html(" ");
+			        $("#dpNO").html(" ");
+			        $("#status").html(" ");
 			    }else{
-		        $("#dpId").val(data[0].id);
-		        $("#name").html(data[0].name);
-		        $("#dlicense").html(data[0].dlicense);
-		        $("#dpNO").html(data[0].dpNO);
-		        $("#status").html(data[0].enabled);
-		        $("#message").html("");
-		        $("#sub").prop('disabled', false);
+			        $("#dpId").val(data[0].id);
+			        $("#name").html(data[0].name);
+			        $("#dlicense").html(data[0].dlicense);
+			        $("#dpNO").html(data[0].dpNO);
+			        $("#status").html(data[0].enabled);
+			        $("#message").html("");
+			        $("#sub").prop('disabled', false);
 		        }
 	        }  
 	    });  

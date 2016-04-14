@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page import="com.surelution.vms.Vehicle" %>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -44,7 +45,7 @@
 						</dt>
 						<dd>
 							<div class="col-xs-8">
-								<input type="text" name="vehicleNO" value="${vehicle.vehicleNO}" class="form-control" readonly="readonly"/>
+								<input type="text" name="vehicleNO" value="${Vehicle.vehicleNO(vehicle)}" class="form-control" readonly="readonly"/>
 							</div>
 						</dd>
 					</dl>

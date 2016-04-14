@@ -13,12 +13,13 @@ class BuyVehicle extends VehicleSource {
 		billPhoto nullable:true
     }
 	
-	
+	Date   gotDate        //购入日期
+	DynImage billPhoto  //购买发票
 	String manufacturer  //购买厂家
 	String buyMan    //购买人
 	String title     //来源名称
-	Date   gotDate        //购入或者租入日期
-	DynImage billPhoto  //购买发票
+	
+	
 	 
 	
 	

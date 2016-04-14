@@ -8,26 +8,29 @@ class VehicleIllgleMenagementController {
 	
 	static CommonsMultipartFile  photo
 	
-    VehicleInUse vehiInUse
+    VehicleInUse vehicleInUse
 	
     def index() { }
 	
+	/**
+	 * 功能：违章登记
+	 * 在save()中,保存违章信息
+	 * @return
+	 */
 	def checkIn(){
-		//违章登记
-		def vehicleid = params.vehicleNO
-		def vehi = Vehicle.findByVehicleNO(vehicleid)
-		if(vehicleid != null && vehi == null){
+		String vehicleNO = params.vehicleNOCheckIn
+		Vehicle vehicleCheckIn = Vehicle.findByVehicleNO(vehicleNO)
+		if(vehicleNO != null && vehicleCheckIn == null){
 			flash.message = "无此车牌号！请输入正确的车牌号码。"
-		}else{
-		  flash.message=""
 		}
-		[vehi:vehi]
+		[vehicleCheckIn:vehicleCheckIn]
 	}
 	
+	/**
+	 * 违章处理
+	 * @return
+	 */
 	def dispose(){
-		
-		println params.voucherID
-		//违章处理
 		def voucherid;
 		def illgle;
 		def vehicle;
@@ -65,79 +68,53 @@ class VehicleIllgleMenagementController {
 	
 	def list(){
 		def voucherid = params.voucherID
-		
-		def illgle
-		if(voucherid){
-			illgle = VehicleIllgle.findByVoucherID(voucherid);
-		}
-		else{
-			illgle = VehicleIllgle.list();
-		}
+		def illgle = voucherid ? VehicleIllgle.findByVoucherID(voucherid):VehicleIllgle.list()
 		[illgle:illgle]
 	}
+	/**
+	 * 保存违章信息
+	 * @return
+	 */
 	def save(){
-		def illgletime = params.date('illgletime','yyyy.MM.dd hh:mm');
+		DynImage image = DynImage.saveImage(request.getFile("illeglePic"))
 		
-		def vehicleNO = params.vehicleNO
-		def voucherid = params.voucherID
-		def location = params.location;
-		def processingunit = params.processingUnit
-		def illglesituation = params.illgleSituation
-		def vehicle = Vehicle.get(vehicleNO)
-		def vehicleInUse = VehicleInUse.findAllByVehicle(vehicle)
-		vehicleInUse.each{vehi->
-			if(vehi.borrowTime<=illgletime && vehi.returnTime>=illgletime){
-				vehiInUse = vehi
-			}
-		}
+		String vehicleNO = params.vehicleNOSave
+		def vehicle = Vehicle.findByVehicleNO(vehicleNO)
+		
+		def illgleTime = params.date('illgleTime','yyyy.MM.dd HH:mm')
+		vehicleInUse = VehicleInUse.createCriteria().list{
+			eq("vehicle",vehicle)
+			gt("returnTime",illgleTime)
+			lt("borrowTime",illgleTime)
+		}[0]
 		def vehicleillgle = new VehicleIllgle();
-		
-		if(vehiInUse==null){
+		if(vehicleInUse == null){
 			vehicleillgle.vehicle = vehicle
 		}else{
-			//flash.message="保存成功"
-			vehicleillgle.vehicleInUse = vehiInUse
+			vehicleillgle.vehicleInUse = vehicleInUse
 		}
-		
-		def image = new DynImage()
-		photo =  request.getFile("illeglePic")
-		if(photo && !photo.empty){
-			savePic(image)
-		}
-		vehicleillgle.illgleTime = illgletime
-		vehicleillgle.voucherID = voucherid
-		vehicleillgle.location = location
-		vehicleillgle.processingUnit = processingunit
-		vehicleillgle.illgleSituation = illglesituation
+		vehicleillgle.illgleTime = illgleTime
+		vehicleillgle.voucherID = params.voucherID
+		vehicleillgle.location = params.location;
+		vehicleillgle.processingUnit = params.processingUnit
+		vehicleillgle.illgleSituation = params.illgleSituation
 		vehicleillgle.image = image
 		if(vehicleillgle.vehicle != null || vehicleillgle.vehicleInUse != null){
 			if(vehicleillgle.save(flush:true)){
+				flash.message = vehicleInUse ? "保存成功":"保存成功，但是在该违章时刻，车辆未曾借出，请仔细核对。"
 				redirect(action:'list')
 			}else{
-			    flash.message="该单号已经添加"
-				redirect(action:'list')
+				flash.message = "保存失败！！！可能违章单号以存在。"
+				println flash.message
+				redirect(action:'checkIn')
 			}
 		}
 		else{
-			//flash.message = "找不到车牌号，请输入正确的车牌号码，重新提交。"
+			flash.message = "违章单号以存在"
+			println flash.message
 			redirect(action:'checkIn')
 		}
 
-	}
-	
-	//保存图片的方法
-	def static savePic(DynImage image){
-		def location = Holders.config.grails.dynImage.rootPath
-		def uuid = UUID.randomUUID().toString()
-		def picUrl = "${location}${uuid}"
-		
-		if(photo && !photo.empty){
-			def name = photo.getOriginalFilename()
-			image.picUrl = picUrl
-			image.originPicName = name
-			image.save(flush:true)
-			photo.transferTo(new File(picUrl))
-		}
 	}
 	
 	def updata(){
@@ -160,23 +137,10 @@ class VehicleIllgleMenagementController {
 		}
 		redirect(action:'dispose')
 	}
-
-	def showimage(long id){
-		def illgle = VehicleIllgle.get(id)
-		def img = illgle.image
-		def imgUrl = img.picUrl
-		File file = new File(imgUrl)
-		
-		def os = response.outputStream
-		os << file.bytes
-		os.flush
-		return
-	}
 	
-	def showPic(){
-		def picId = params.id
+	def showPic(long id){
+		def picId = id
 		def illgle = VehicleIllgle.get(picId)
-		println illgle;
 		def img = illgle.image
 		def imgUrl = img.picUrl
 		File file = new File(imgUrl)
@@ -187,8 +151,9 @@ class VehicleIllgleMenagementController {
 		return
 	}
 	
-	
-	def show(){
-		
-	}
+	/**
+	 * modal调用用的，显示违章凭证图片
+	 * @return
+	 */
+	def show(){}
 }

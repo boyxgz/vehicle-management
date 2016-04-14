@@ -1,5 +1,6 @@
 package com.surelution.vms
 
+
 import org.springframework.dao.DataIntegrityViolationException
 
 class InsureController {
@@ -10,10 +11,43 @@ class InsureController {
         redirect(action: "list", params: params)
     }
 
-    def list(Integer max) {
+    def list(Integer max,String id) {
         params.max = Math.min(max ?: 10, 100)
-        [insureInstanceList: Insure.list(params), insureInstanceTotal: Insure.count()]
+		def insure = Insure.createCriteria().list {
+			lt("expiredAt",new Date())
+		}
+		
+		insure.each {
+			it.states = Insure.InsureState.EXPIRE
+		}
+		println id
+		def states = id != null?Insure.InsureState.valueOf(id):Insure.InsureState.EVER;
+		def insureInstanceList
+		
+		if(states == Insure.InsureState.EVER){
+			insureInstanceList = Insure.list()
+		}else{
+			insureInstanceList = Insure.createCriteria().list{
+				eq("states",states)
+			}
+		}
+//		if(Insure.InsureState.VALID.toString(id) == id){
+//			insureInstanceList = Insure.createCriteria().list{
+//				println eq("states",Insure.InsureState.VALID)
+//			}
+//			states = Insure.InsureState.VALID
+//		}else if(Insure.InsureState.EXPIRE.toString(id) == id){
+//			insureInstanceList = Insure.createCriteria().list{
+//				eq("states",Insure.InsureState.EXPIRE)
+//			}
+//			states = Insure.InsureState.EXPIRE
+//		}else{
+//			insureInstanceList = Insure.list()
+//			states = Insure.InsureState.EVER
+//		}
+        [insureInstanceList: insureInstanceList, insureInstanceTotal: Insure.count(),states:states]
     }
+	
 
     def create() {
         [insureInstance: new Insure(params)]
@@ -26,10 +60,9 @@ class InsureController {
 		insureInstance.insureMan = params.insureMan
 		insureInstance.insureMoney = params.double("insureMoney")
 		insureInstance.insureType = params.insureType
-		println params.firstInsure
 		insureInstance.firstInsure = (params.firstInsure == 1 ? false : true)
 		println insureInstance.firstInsure
-		insureInstance.insureContractNo = params.int("insureContractNo")
+		insureInstance.insureContractNo = params.insureContractNo
 		insureInstance.effectivedAt = params.date("effectivedAt","yyyy.MM.dd")
 		insureInstance.expiredAt = params.date("expiredAt","yyyy.MM.dd")
 		insureInstance.insuredAt = params.date("insuredAt","yyyy.MM.dd")

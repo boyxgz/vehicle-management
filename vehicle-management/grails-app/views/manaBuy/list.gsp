@@ -81,17 +81,12 @@
 			<table class="table table-bordered  table-striped">
 			    <thead>
 				  <tr>
-				    <th><g:message code="label.vehicle.vehicleNO" default="vehicleNO"/></th>
+				  	<th>车牌号码</th>
 				    <th><g:message code="label.vehicle.vehicleType" default="vehicleType"/></th>
 				    <th><g:message code="label.vehicle.vehicleBrand" default="vehicleBrand"/></th>
-				    <%--<th><g:message code="label.vehicle.vehicleModel" default="vehicleModel"/></th>
-				     <th><g:message code="label.vehicle.price" default="price"/></th>--%>
-				    <th><g:message code="label.vehicle.insureEndDate" default="insureEndDate"/></th>
-				     <%--<th><g:message code="label.vehicle.inuse" default="inuse"/></th>--%>
-				    <th><g:message code="label.vehicle.vOwner" default="vOwner"/></th>
+				    <%--<th><g:message code="label.vehicle.insureEndDate" default="insureEndDate"/></th>--%>
                     <th><g:message code="label.vehicle.recordTime" default="recordTime"/></th>
                      <th><g:message code="label.vehicle.statu" default="statu"/></th>
-                    <%--<th><g:message code="label.vehicle.enabled" default="enabled"/></th>--%>
                     <th>操作</th>
                   </tr>
                  </thead>
@@ -99,21 +94,12 @@
                 
                  <g:each in="${vehicleResult }" var="vehicle">
                    <tr>
-                      <td><g:link action="showVehicleSource" id="${vehicle?.id}">${vehicle.vehicleNO}</g:link></td>
-                      <td>${vehicle.vehicleType}</td>
-                      <td>${vehicle.vehicleBrand}</td>
-                      <%--<td>${vehicle.vehicleModel}</td>
-                       <td>${vehicle.price}</td>--%>
-                       <td><g:formatDate date="${vehicle.insureEndDate}" format="yyyy-MM-dd"/></td>
-                        <%--<td><g:if test="${vehicle.inuse==true}">已借出</g:if>
-                        <g:else>可借用</g:else>
-                        </td>--%>
-                      <td>${vehicle.vOwner}</td>
+                   	  <td><g:link action="showVehicleSource" id="${vehicle?.id}">${Vehicle.vehicleNO(vehicle)}</g:link></td>
+                      <td>${vehicle?.vehicleType}</td>
+                      <td>${vehicle?.vehicleBrand}</td>
+                       <%--<td><g:formatDate date="${vehicle.insureEndDate}" format="yyyy-MM-dd"/></td>--%>
                       <td><g:formatDate date="${vehicle.recordTime}" format="yyyy-MM-dd"/></td>
                        <td>${vehicle.statu}</td>
-                      <%--<td><g:if test="${vehicle.enabled==true}">是</g:if>
-                          <g:else>否</g:else>
-                      </td>--%>
                       <td>
                         <g:if test="${vehicle.vsource.title.equals('购买')}">
                            <g:if test="${vehicle?.transfer?.isTransfer==true}">

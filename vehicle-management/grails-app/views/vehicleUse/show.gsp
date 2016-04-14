@@ -179,7 +179,7 @@
                     <tbody>
                     <g:each in="${vehicleList}" var="vehicle">
                         <tr>
-                            <td>${vehicle?.vehicleNO}</td>
+                            <td>${Vehicle.vehicleNO(vehicle) }</td>
                             <td>${vehicle?.vehicleType}</td>
                             <td>${vehicle?.vehicleModel }</td>
                             <td>${vehicle?.vehicleBrand }</td>

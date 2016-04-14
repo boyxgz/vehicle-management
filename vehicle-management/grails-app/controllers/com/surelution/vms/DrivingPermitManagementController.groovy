@@ -53,18 +53,7 @@ class DrivingPermitManagementController {
 	
 	def saveDrivingPermit(){
 		
-		def permitPic = new DynImage()
-		CommonsMultipartFile pic = request.getFile('permitPic')
-		def location = Holders.config.grails.dynImage.rootPath
-		def uuid = UUID.randomUUID().toString()
-		def picUrl = "${location}/${uuid}"
-		if(pic && !pic.empty){
-			def name = pic.getOriginalFilename()
-			permitPic.picUrl = picUrl
-			permitPic.originPicName = name
-			permitPic.save(flush:true)
-			pic.transferTo(new File(picUrl))
-		}
+		DynImage permitPic = DynImage.saveImage(request.getFile('permitPic'))
 		
 		def dpNO = params.dp
 		def trainingDate = params.date('trainingDate','yyyy.MM.dd')
@@ -75,21 +64,21 @@ class DrivingPermitManagementController {
 		def description = params.description
 		def sex = params.sex
 		def dlicense = params.dlicense
-//		def age = params.int('age')
 		
 		def d = new DrivingPermit()
-		d.dpNO = dpNO 
-		d.trainingDate = trainingDate
+		d.dpNO = params.dp
+		d.cardId = params.cardId
+		d.trainingDate = params.date("trainingDate","yyyy.MM.dd")
 		/*d.validityDate = validityDate*/
-		d.issueDate = issueDate
-		d.score = score
+		d.issueDate = params.date('issueDate','yyyy.MM.dd')
+		d.score = params.int('score')
 		d.delay = false
 		d.licensRevoked = false
-		d.name = name
-		d.description = description
-		d.sex = sex
+		d.name = params.name
+		d.description = params.description
+		d.sex = params.sex
 		d.birthDay = params.date('birthDay','yyyy.MM.dd')
-		d.dlicense = dlicense
+		d.dlicense = params.dlicense
 		d.borrowNum = 0
 		d.dlligle = " "
 		d.enabled = true
@@ -128,7 +117,6 @@ class DrivingPermitManagementController {
 		//延期更新
 		def delayto = params.date('delayTo','yyyy.MM.dd');
 		def delaytoid = params.delayToid;
-		println delayto
 		def dp = DrivingPermit.get(delaytoid);
 		dp.delayTo = delayto;
 		dp.delay = true;
@@ -183,22 +171,11 @@ class DrivingPermitManagementController {
 	def update(){
 		def drivi = DrivingPermit.get(params.id);
 		
-		def permitPic = new DynImage()
-		CommonsMultipartFile pic = request.getFile('permitPic')
-		def location = Holders.config.grails.dynImage.rootPath
-		def uuid = UUID.randomUUID().toString()
-		def picUrl = "${location}/${uuid}"
-		if(pic && !pic.empty){
-			def name = pic.getOriginalFilename()
-			permitPic.picUrl = picUrl
-			permitPic.originPicName = name
-			permitPic.save(flush:true)
-			pic.transferTo(new File(picUrl))
-			drivi.permitPic = permitPic;
-		}
+		DynImage permitPic = DynImage.saveImage( request.getFile('permitPic'))
 		
 		drivi.name = params.name;
 		drivi.dpNO = params.dpNO;
+		drivi.cardId = params.cardId;
 		drivi.sex = params.sex;
 		drivi.birthDay = params.date('birthDay','yyyy-MM-dd');
 		drivi.dlicense = params.dlicense;

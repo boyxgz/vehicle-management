@@ -65,7 +65,7 @@ grails.project.dependency.resolution = {
 	
         compile ':cache:1.0.1'
 		compile ':cookie:0.51'
-		
+//		runtime 'net.sourceforge.jexcelapi:jxl:2.6.12'
 		compile ":spring-security-core:2.0-RC2"
     }
 }
