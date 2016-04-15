@@ -10,7 +10,7 @@
 
 <style type="text/css">
 .tab{ width: 70%; text-align: center;}
-
+.pagination{position: relative; top: 84%; left: 50%;}
 </style>
 </head>
 <body>
@@ -126,6 +126,9 @@
                  </g:each>
                </tbody>
 			</table>
+			</div>
+			<div class="pagination">
+				<g:paginate total="${vehicleCount}" />
 			</div>
 			<div class="modal fade" id="showTransfer" role="dialog">
                                  <div class="modal-dialog">

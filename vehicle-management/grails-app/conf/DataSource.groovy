@@ -15,7 +15,7 @@ environments {
         dataSource {
             dbCreate = "update" // one of 'create', 'create-drop','update'
 		    username = "root"
-		    password = ""
+		    password = "123456"
             url = "jdbc:mysql://localhost/vms?useUnicode=true&characterEncoding=utf8"
 			loggingSql = true
 

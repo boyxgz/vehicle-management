@@ -10,6 +10,8 @@
 		.title{width:100px;}
 		.col-md-1{padding: 0px; width: 10px;}
 		.brach{margin-bottom: 13px;}
+		.pagination{position: relative; left: 50%;}
+		.table{margin-top: 45px; width: 96%; margin-left: 2%;}
 	</style>
 </head>
 <body>
@@ -65,7 +67,7 @@
 			</table>
 			</g:form>
 			</div>
-			<div>
+			<div class="box box-info">
 				<table class="table table-bordered table-respose">
 				<thead>
 					<tr>

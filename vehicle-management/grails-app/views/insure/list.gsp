@@ -10,6 +10,7 @@
 			.table{width:96%; margin-left:2%;}
 			.box-body{padding:13px;}
 			.defaultmodalstyle{ width:40%; height:auto; background-color:#F5F5F5; filter:alpha(opacity=50); margin-left:30%; margin-top:5%; border-radius:5px; border: 1px solid #C5CBD7}
+			.pagination{position: relative; top: 84%; left: 50%;}
 		</style>
 	</head>
 	<body>

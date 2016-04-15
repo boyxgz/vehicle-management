@@ -86,7 +86,6 @@ class Vehicle {
 		if(!vehicle){
 			return ""
 		}else{
-			
 			String vehicleNO = vehicle.province.name + vehicle.areaCode + vehicle.no;
 			return vehicleNO
 		}

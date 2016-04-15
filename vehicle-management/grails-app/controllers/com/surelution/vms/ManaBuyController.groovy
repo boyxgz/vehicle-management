@@ -26,8 +26,9 @@ class ManaBuyController {
 	}
 
 	//购入车辆显示列表
-	def list(){
-	   def statu
+	def list(Integer max){
+		params.max = Math.min(max ?: 6, 100)
+		def statu
 		String vehicleNO = params.vehicleNO
 		def province
 		def areaCode
@@ -42,9 +43,9 @@ class ManaBuyController {
 	   if(sta){
 	    statu  = Vehicle.PrerepairStatus.valueOf(sta)
 	   }
-	   def vehicleResult = Vehicle.createCriteria().list {
+	   def vehicleResult = Vehicle.createCriteria().list(params) {
 		   if(vehicleNO){
-			   createAlias "province", "p" 
+			   createAlias("province", "p")
 			   and{
 				   eq("no",no)
 				   eq("areaCode",areaCode)
@@ -59,7 +60,7 @@ class ManaBuyController {
 		   }
 	   }
 
-	   [vehicleResult:vehicleResult]
+	   [vehicleResult:vehicleResult, vehicleCount:Vehicle.count()]
 	}
 	
 	//添加购入车辆
@@ -164,6 +165,56 @@ class ManaBuyController {
 	
 	def vehicleSourceEdit(long id){
 		[vehicleSource:Vehicle.get(id)]
+	}
+	
+	def vehicleSourceUpdate(long id){
+		
+		def vehicle = Vehicle.get(id)
+		vehicle.province.name = Province.get(params.province).name
+		vehicle.areaCode = params.areaCode
+		vehicle.no = params.no
+		vehicle.vehicleType = params.vehicleType
+		vehicle.vehicleBrand = params.vehicleBrand
+		vehicle.vehicleModel = params.vehicleModel
+		vehicle.carFrame = params.carFrame
+		vehicle.price = params.double("price")
+		vehicle.vehiclePhoto = DynImage.saveImage(request.getFile("vehiclePhoto"))
+		vehicle.save(flush:true)
+		
+		def vehicleBuy = BuyVehicle.get(vehicle.vsource.id)
+		if(vehicleBuy){
+			vehicleBuy.gotDate = params.date('gotDateBuy','yyyy.MM.dd')
+			vehicleBuy.buyMan = params.buyMan
+			vehicleBuy.manufacturer = params.manufacturer
+			vehicleBuy.billPhoto = DynImage.saveImage(request.getFile("billPhoto"))
+			def tf = VehicleTransfer.get(vehicle?.transfer?.id)
+			if(tf?.isTransfer == true){
+				tf.transferDate = params.date("transferDate","yyyy.MM.dd")
+				tf.transferMan = params.transferMan
+				tf.transferReason = params.transferReason
+				tf.money = params.double("money")
+				tf.contractNO = params.contractNO
+				tf.save(flush:true)
+			}
+			def sc = VehicleScrapped.get(vehicle?.scrapped?.id)
+			if(sc){
+				sc.scrapTime = sc.isScrapped ? params.date("scrapTime",'yyyy.MM.dd'):sc.scrapTime
+				sc.save(flush:true)
+			}
+			vehicleBuy.save(flush:true)
+		}
+		
+		def vehicleRent = RentVehicle.get(vehicle.vsource.id)
+		if(vehicleRent){
+			vehicleRent.gotDate = params.date("gotDateRent","yyyy.MM.dd")
+			vehicleRent.rentMan = params.rentMan
+			vehicleRent.rentTo = params.date("rentTo","yyyy.MM.dd")
+			vehicleRent.rentPhoto = DynImage.saveImage(request.getFile("rentPhoto"))
+			vehicleRent.save(flush:true)
+		}
+		
+		
+		redirect(action:'showVehicleSource',id:id)
 	}
 	//显示公车图片的方法
 	def showPic(long id){

@@ -11,6 +11,7 @@
 		.modalstyle{ width: 40%; background-color:#F5F5F5; filter:alpha(opacity=50); margin-left:30%; height:65%; margin-top:5%; border-radius:5px; border: 1px solid #C5CBD7}
 	     td th{width:200px;}
 	     tr{line-height:30px;}
+	     .pagination{position: relative; top: 84%; left: 46%;}
 	</style>
 	
 	<script type="text/javascript">
@@ -60,65 +61,68 @@
 		</g:uploadForm>
 		<div style="height:10px;"></div>
 		<div>
-		<table class = "table-striped table-bordered table" >
-			<thead>
-			<tr style=" background-color:#3C8DBD;">
-			<th><g:message code="label.VehicleIllgle.voucherID" default="违章单号"/></th>
-			<th><g:message code="label.vehicle.vehicleNO" default="vehicleNO" /></th>
-			<th><g:message code="VehicleIllgle.illgleTime.label" default="illgleTime"/></th>
-			<th><g:message code="VehicleIllgle.location.label" default="location"/></th>
-			<th><g:message code="VehicleIllgle.processingUnit.label" default="processingUnit"/></th>
-			<th><g:message code="VehicleIllgle.illgleSituation.label" default="违章情况"/></th>
-			<th>违章是否处理</th>
-			<th><g:message code="VehicleIllgle.dealTime.label" default="dealTime"/></th>
-			<th><g:message code="VehicleIllgle.dealResult.label" default="dealResult"/>
-			<th><g:message code="VehicleIllgle.dealMan.label" default="dealMan"/></th>
-			
-			<th><g:message code="pic" default="违章凭证"/></th>
-			</tr>
-			</thead>
-			<tbody>
-			<g:each in="${illgle}"  var="illgel">
-			<tr>
-			<td>
-			<a href="${createLink(action:'dispose',params:['voucherID':illgel?.voucherID])}">${illgel?.voucherID }</a>
-			</td>
-			<td>
-				<g:if test="${illgel.vehicleInUse == null}">
-					<g:set var="vehicle" value="${illgel?.vehicle }" />
-				</g:if>
-				<g:else>
-					<g:set var="vehicle" value="${illgel?.vehicle }" />
-				</g:else>
-				${Vehicle.vehicleNO(vehicle) }
-			</td>
-			<td><g:formatDate date="${illgel?.illgleTime }" format="yyyy-MM-dd HH:mm"/></td>
-			<td>${illgel?.location }</td>
-			<td>${illgel?.processingUnit }</td>
-			<td>${illgel?.illgleSituation }</td>
-			<td>
-			   <g:if test="${illgel?.ischecked==true}">是</g:if>
-			   <g:else>否</g:else>
-			</td>
-			<td><g:formatDate date="${illgel?.dealTime }" format="yyyy-MM-dd HH:mm"/></td>
-			<td>${illgel?.dealResult }</td>
-			<td>${illgel?.dealMan }</td>
-			<td>
-			   <g:link action="show" id="${illgel.id }" data-toggle="modal" data-target="#customerModal" class="btn btn-default">显示图片</g:link>
-			</td>
-			</tr>
-			</g:each>
-		</tbody>
-		</table>
-			<div style="height:10px;"></div>
+			<table class = "table-striped table-bordered table" >
+				<thead>
+				<tr style=" background-color:#3C8DBD;">
+				<th><g:message code="label.VehicleIllgle.voucherID" default="违章单号"/></th>
+				<th><g:message code="label.vehicle.vehicleNO" default="vehicleNO" /></th>
+				<th><g:message code="VehicleIllgle.illgleTime.label" default="illgleTime"/></th>
+				<th><g:message code="VehicleIllgle.location.label" default="location"/></th>
+				<th><g:message code="VehicleIllgle.processingUnit.label" default="processingUnit"/></th>
+				<th><g:message code="VehicleIllgle.illgleSituation.label" default="违章情况"/></th>
+				<th>违章是否处理</th>
+				<th><g:message code="VehicleIllgle.dealTime.label" default="dealTime"/></th>
+				<th><g:message code="VehicleIllgle.dealResult.label" default="dealResult"/>
+				<th><g:message code="VehicleIllgle.dealMan.label" default="dealMan"/></th>
+				
+				<th><g:message code="pic" default="违章凭证"/></th>
+				</tr>
+				</thead>
+				<tbody>
+				<g:each in="${illgle}"  var="illgel">
+				<tr>
+				<td>
+				<a href="${createLink(action:'dispose',params:['voucherID':illgel?.voucherID])}">${illgel?.voucherID }</a>
+				</td>
+				<td>
+					<g:if test="${illgel.vehicleInUse == null}">
+						<g:set var="vehicle" value="${illgel?.vehicle }" />
+					</g:if>
+					<g:else>
+						<g:set var="vehicle" value="${illgel?.vehicle }" />
+					</g:else>
+					${Vehicle.vehicleNO(vehicle) }
+				</td>
+				<td><g:formatDate date="${illgel?.illgleTime }" format="yyyy-MM-dd HH:mm"/></td>
+				<td>${illgel?.location }</td>
+				<td>${illgel?.processingUnit }</td>
+				<td>${illgel?.illgleSituation }</td>
+				<td>
+				   <g:if test="${illgel?.ischecked==true}">是</g:if>
+				   <g:else>否</g:else>
+				</td>
+				<td><g:formatDate date="${illgel?.dealTime }" format="yyyy-MM-dd HH:mm"/></td>
+				<td>${illgel?.dealResult }</td>
+				<td>${illgel?.dealMan }</td>
+				<td>
+				   <g:link action="show" id="${illgel.id }" data-toggle="modal" data-target="#customerModal" class="btn btn-default">显示图片</g:link>
+				</td>
+				</tr>
+				</g:each>
+			</tbody>
+			</table>
+			<div class="pagination">
+				<g:paginate total="${illgleCount}" />
 			</div>
-			 <div class="modal" id="customerModal" role="dialog">
-                     <div class="modal-dialog">
-                           <!-- Modal content-->
-                           <div class="modal-content"> 
-                           </div>
-                          </div>
-                      </div>
+			<div style="height:10px;"></div>
+		</div>
+		 <div class="modal" id="customerModal" role="dialog">
+              <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content"> 
+                    </div>
+               </div>
+         </div>
 	</div>
 	</div>
 </section>

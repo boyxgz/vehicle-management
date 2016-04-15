@@ -11,7 +11,8 @@ class VehicleTransfer {
 	String transferMan  //转让人
 	String transferReason //转让原因
 	double money   //转让金额
-    int   contractNO  //转让合同编号
+//    int   contractNO  //转让合同编号
+	String contractNO  //转让合同编号
 	
 	Date dateCreated
 }

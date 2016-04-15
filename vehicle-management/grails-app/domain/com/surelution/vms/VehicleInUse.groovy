@@ -39,5 +39,10 @@ class VehicleInUse {
 	
 	boolean isReturn //是否归还
 	
-	
+	enum VehicleStates{
+		returns,unReturns
+		public String toString() {
+			KeyedMessage.findByKey("Vehicle-" + name())?.message
+		}
+	}
 }

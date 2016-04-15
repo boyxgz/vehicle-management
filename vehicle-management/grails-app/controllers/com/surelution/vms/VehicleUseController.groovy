@@ -40,9 +40,27 @@ class VehicleUseController {
 	}
 	
 	//还车页面
-	def returnVehicle(){
+	def returnVehicle(String id,Integer max){
+		
+		params.max = Math.min(max ?: 10, 100)
+		if(!params.offset) params.offset = 0
+		if(!params.sort) params.sort = "id"
+		if(!params.order) params.order = 'desc'
+		
+		def states = id != null?VehicleInUse.VehicleStates.valueOf(id):VehicleInUse.VehicleStates.unReturns
+		if(states == null){
+//			states = VehicleInUse.VehicleStates.valueOf(params.vehicleStates)
+			states = params.vehicleStates
+		}
+		println states == VehicleInUse.VehicleStates.returns
+		boolean isReturn
+		if(states == VehicleInUse.VehicleStates.returns){
+			isReturn = true
+		}else if(states == VehicleInUse.VehicleStates.unReturns){
+			isReturn = false
+		}
 		def carNO = params.carNO
-		def dp = DrivingPermit.createCriteria().list{
+		def dp = DrivingPermit.createCriteria().list(){
 			or{
 				eq "dpNO",carNO
 				eq "cardId",carNO
@@ -55,13 +73,15 @@ class VehicleUseController {
 		    flash.message=""
 		}
 		
-		def vehicleInUseList = VehicleInUse.createCriteria().list {
+		def vehicleInUseList = VehicleInUse.createCriteria().list(params) {
 			if(dp){
 			  eq('drivingPermit',dp)
 			 }
+			eq("isReturn",isReturn)
+			
 		}
 		flash.message = dp != null && vehicleInUseList.size() == 0 ? "没有借车信息！！！" : "";
-		[vehicleInuseList:vehicleInUseList]
+		[vehicleInuseList:vehicleInUseList,vehicleStates:states]
 	}
 	
 	//显示还车详细信息
@@ -199,7 +219,10 @@ class VehicleUseController {
 	}
 	
 	def reportFrom(Integer max){
-		params.max = Math.min(max ?: 10, 100)
+		params.max = Math.min(max ?: 8, 100)
+		params.sort = "id"
+		if(!params.offset) params.offset = 0
+		params.order = "desc"
 		//params.dpNO/params.vehicleNO/params.startDate/params.endDate
 		def startDate = params.date("startDate","yyyy.MM.dd")
 		def endDate = params.date("endDate","yyyy.MM.dd")
@@ -221,7 +244,7 @@ class VehicleUseController {
 			no = vehicleNO.substring(2)
 		}
 		def vehicleInUse
-		vehicleInUse = VehicleInUse.createCriteria().list {
+		vehicleInUse = VehicleInUse.createCriteria().list(params) {
 			createAlias("drivingPermit", "dp")
 			createAlias("vehicle","v")
 			createAlias("v.province","p")
@@ -239,6 +262,7 @@ class VehicleUseController {
 				}
 			}
 			between("borrowTime",startDate,endDate)
+			eq("isReturn",true)
 		}
 		
 		[vehicleInUse:vehicleInUse,vehicleInUseTotal:VehicleInUse.count()]

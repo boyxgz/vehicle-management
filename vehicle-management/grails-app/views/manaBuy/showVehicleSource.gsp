@@ -9,7 +9,7 @@
 		.font{font-weight:bold;}
 		.table{width:50%;}
 		.location{width: 80%; position: absolute; left: 47%; top: 110px;}
-		.defaultmodalstyle{ width:40%; height:auto; background-color:#F5F5F5; filter:alpha(opacity=50); margin-left:30%; margin-top:5%; border-radius:5px; border: 1px solid #C5CBD7}	
+		.defaultmodalstyle{ width:40%; height:auto; background-color:#F5F5F5; filter:alpha(opacity=50); margin-left:30%; margin-top:10px; margin-bottom:10px; border-radius:5px; border: 1px solid #C5CBD7}	
 	</style>
 </head>
 <body>
@@ -58,12 +58,12 @@
 	            </tr>
 	            <tr>
 	               <th><g:message code="label.vehicle.manufacturer" default="manufacturer"/></th>
-	               <td>${vehicleSource.vsource.manufacturer}</td>
+	               <td>${vehicleSource?.vsource?.manufacturer}</td>
 	            </tr>
-	            <g:if test="${vehicleSource.vsource.title=='购买' }">
+	            <g:if test="${vehicleSource?.vsource?.title=='购买' }">
 	            	<tr>
 		               <th><g:message code="label.vehicle.gotDateBuy" default="gotDateBuy"/></th>
-		               <td><g:formatDate date="${vehicleSource.vsource.gotDate }" format="yyyy-MM-dd"/></td>
+		               <td><g:formatDate date="${vehicleSource?.vsource?.gotDate }" format="yyyy-MM-dd"/></td>
 		            </tr>
 	                 <tr>
 	                    <th><g:message code="label.vehicle.buyMan" default="buyMan"/></th>
@@ -191,7 +191,7 @@
 		    var target = $(this).attr("href"); 
 			    $("#vehicleSourceEdit").load(target, function() { 
 			    	$("#vehicleSourceEdit").addClass("defaultmodalstyle")
-	               $("#vehicleSourceEdit").modal('show');  }); 				    	
+	               $("#vehicleSourceEdit").modal('show');  });			    	
 			    });
 		});
 </script>

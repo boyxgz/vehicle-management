@@ -13,7 +13,10 @@ class InsureController {
 
     def list(Integer max,String id) {
         params.max = Math.min(max ?: 10, 100)
-		def insure = Insure.createCriteria().list {
+		if(!params.offset) params.offset = 0
+		if(!params.sort) params.sort = "id"
+		if(!params.order) params.order = 'desc'
+		def insure = Insure.createCriteria().list(params) {
 			lt("expiredAt",new Date())
 		}
 		
@@ -25,9 +28,9 @@ class InsureController {
 		def insureInstanceList
 		
 		if(states == Insure.InsureState.EVER){
-			insureInstanceList = Insure.list()
+			insureInstanceList = Insure.list(params)
 		}else{
-			insureInstanceList = Insure.createCriteria().list{
+			insureInstanceList = Insure.createCriteria().list(params){
 				eq("states",states)
 			}
 		}

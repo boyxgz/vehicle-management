@@ -1,14 +1,14 @@
-<%@page import="com.surelution.vms.Vehicle"%>
+<%@ page import="com.surelution.vms.Vehicle"%>
+<%@ page import="com.surelution.vms.VehicleInUse"%>
 <%@ page contentType="text/html;charset=UTF-8"%>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="layout" content="jarvis" />
 <title>借车信息记录</title>
-
-<script type="text/javascript">
-    
-</script>
+<style>
+	.location{ position: absolute; width: 200px; top: 105px; left: 91px;}
+</style>
 </head>
 <body>
 	<div class="body">
@@ -26,17 +26,27 @@
                   <div class="box-body">
                   <g:form action="returnVehicle">
                       <dl class="dl-horizontal" style="margin-left:-80px;">
-	                            <dt><label for="branch">
-								        <g:message code="label.vehicle.carNO" default="准驾证号：" />
-							         </label>
-							    </dt>
-	                            <dd>
-	                               <div class="col-xs-3">
-	                                  <input type="text" name="carNO" value="${params.carNO }" class="form-control">
-	                               </div>
-	                            </dd>
-	                        </dl>
-	                        
+                            <dt><label for="branch">
+							        <g:message code="label.vehicle.carNO" default="准驾证号：" />
+						         </label>
+						    </dt>
+                            <dd>
+                               <div class="col-xs-3">
+                                  <input type="text" name="carNO" value="${params.carNO }" class="form-control">
+                               </div>
+                            </dd>
+                        </dl>
+                        <g:select name="vehicleStates" id="vehicleStates" value="${vehicleStates.name()}" from="${VehicleInUse.VehicleStates.values()}" class="form-control location" keys="${VehicleInUse.VehicleStates.values()*.name()}" />
+						<script type="text/javascript">
+							$("#vehicleStates").change(function(){
+								var value = $("#vehicleStates").val();
+								if(value == "returns"){
+									location.href = "${createLink(action:'returnVehicle',id:"returns")}";
+								}else if(value == "unReturns"){
+									location.href = "${createLink(action:'returnVehicle',id:"unReturns")}";
+								}
+							});
+						</script>
 	                <fieldset class="buttons">
 						<g:submitButton name="search" class="search btn btn-primary" value="${message(code: 'default.button.search.label', default: '查询')}" />
 					</fieldset>

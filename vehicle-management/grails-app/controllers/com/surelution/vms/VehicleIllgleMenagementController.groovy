@@ -66,10 +66,16 @@ class VehicleIllgleMenagementController {
 	def disp(){
 	}
 	
-	def list(){
+	def list(Integer max){
+		
+		params.max = Math.min(max ?: 8, 100)
+		if(!params.offset) params.offset = 0
+		if(!params.sort) params.sort = "id"
+		if(!params.order) params.order = 'desc'
+		
 		def voucherid = params.voucherID
-		def illgle = voucherid ? VehicleIllgle.findByVoucherID(voucherid):VehicleIllgle.list()
-		[illgle:illgle]
+		def illgle = voucherid ? VehicleIllgle.findByVoucherID(voucherid):VehicleIllgle.list(params)
+		[illgle:illgle,illgleCount:VehicleIllgle.count()]
 	}
 	/**
 	 * 保存违章信息
